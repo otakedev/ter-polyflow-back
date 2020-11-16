@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,15 @@ public class ApplicationAdminService {
 
     @CrossOrigin
     @GetMapping("/student")
-    public ResponseEntity<List<Student>> getMishaps() {
+    public ResponseEntity<List<Student>> getStudents() {
+        List<Student> students = applicationManagement.getApplicanteStudents();
+        return ok().body(students);
+    }
+
+    @CrossOrigin
+    @PostMapping("/student")
+    public ResponseEntity<List<Student>> postStudents() {
+        applicationManagement.importStudents();
         List<Student> students = applicationManagement.getApplicanteStudents();
         return ok().body(students);
     }

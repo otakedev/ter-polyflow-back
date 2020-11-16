@@ -1,9 +1,12 @@
 package fr.polytech.application.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,17 +21,17 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "studentnumber", length = 30, nullable = false)
+    @Column(name = "studentnumber", length = 100, nullable = false)
     private String studentNumber;
 
-    @Column(name = "firstname", length = 30, nullable = false)
+    @Column(name = "firstname", length = 100, nullable = false)
     private String firstname;
 
-    @Column(name = "lastname", length = 30, nullable = false)
+    @Column(name = "lastname", length = 100, nullable = false)
     private String lastname;
 
-    @OneToMany
-    private List<Application> applications;
+    @OneToMany(mappedBy="student", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Application> applications = new ArrayList<>();
 
     public List<Application> getApplications() {
         return this.applications;

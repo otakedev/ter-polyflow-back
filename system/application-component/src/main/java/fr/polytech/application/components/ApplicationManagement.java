@@ -7,4 +7,5 @@ import fr.polytech.application.models.Student;
 public interface ApplicationManagement {
     
     List<Student> getApplicanteStudents();
+    void importStudents();
 }
