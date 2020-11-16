@@ -1,0 +1,31 @@
+matrix:
+    include:
+      - language: java
+        java: 11
+        services:
+          - mysql
+        before_install:
+          - mysql -e 'CREATE DATABASE tmtravis;'
+        before_script:
+          - cd system
+        script:
+          - mvn clean install -Ptravis
+  
+      - language: sh
+        jobs:
+          include:
+            - stage: hello
+              install:
+                - curl -L https://deno.land/x/install/install.sh | sh -s v0.3.5
+                - export PATH="$HOME/.deno/bin:$PATH"
+              cache:
+                directories:
+                  - '$HOME/.deno'
+              before_script:
+                - cd hello
+              script:
+                script:
+                  - deno --version
+
+notifications:
+  slack: informatiquep-kyw7477:yJfWhqfKXerkM5uPjyyPzpMK
