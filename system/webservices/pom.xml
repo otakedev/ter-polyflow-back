@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.polytech</groupId>
-			<artifactId>hello-component</artifactId>
+			<artifactId>application-component</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

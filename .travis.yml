@@ -5,7 +5,7 @@ matrix:
         services:
           - mysql
         before_install:
-          - mysql -e 'CREATE DATABASE tmtravis;'
+          - mysql -e 'CREATE DATABASE pftravis;'
         before_script:
           - cd system
         script:

@@ -6,25 +6,30 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.polytech.hello.components.IHello;
+import fr.polytech.application.components.ApplicationManagement;
+import fr.polytech.application.models.Student;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+import java.util.List;
+
 @RestController
 @SpringBootApplication
-@ComponentScan({ "fr.polytech.hello" })
-public class HelloService {
+@ComponentScan({ "fr.polytech.application" })
+@RequestMapping("/api/admin")
+public class ApplicationAdminService {
 
     @Autowired
-    IHello hello;
+    ApplicationManagement applicationManagement;
 
     @CrossOrigin
-    @GetMapping("/hello")
-    public ResponseEntity<String> getMishaps() {
-        String msgHello = hello.hello();
-        return ok().body(msgHello);
+    @GetMapping("/student")
+    public ResponseEntity<List<Student>> getMishaps() {
+        List<Student> students = applicationManagement.getApplicanteStudents();
+        return ok().body(students);
     }
     
 }

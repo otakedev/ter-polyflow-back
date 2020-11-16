@@ -1,4 +1,4 @@
-package fr.polytech.hello.api;
+package fr.polytech.application.api;
 
 public class Api {
     

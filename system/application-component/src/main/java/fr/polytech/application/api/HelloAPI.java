@@ -1,4 +1,4 @@
-package fr.polytech.hello.api;
+package fr.polytech.application.api;
 
 import org.springframework.web.client.RestTemplate;
 

@@ -1,4 +1,4 @@
-package fr.polytech.hello;
+package fr.polytech.application;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
