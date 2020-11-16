@@ -14,7 +14,7 @@ Go to system and run `run.sh`
 
 ## To Install external µservices
 
-You need `deno`, you can found it (https://deno.land/)[https://deno.land/]
+You need `deno`, you can found it [https://deno.land/](https://deno.land/)
 
 ## To Run it
 
