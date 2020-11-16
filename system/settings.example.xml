@@ -1,0 +1,31 @@
+<settings> 
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <port></port>
+                <database_host>localhost</database_host>
+                <database_port>3306</database_port>
+                <database_user>{fill}</database_user>
+                <database_password>{fill}</database_password>
+                <database_name>{fill}</database_name>
+                <ddlauto>create</ddlauto>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <port>3000</port>
+                <database_host>localhost</database_host>
+                <database_port>3306</database_port>
+                <database_user>{fill}</database_user>
+                <database_password>{fill}</database_password>
+                <database_name>{fill}</database_name>
+                <ddlauto>update</ddlauto>
+            </properties>
+        </profile>
+    </profiles>
+</settings>
