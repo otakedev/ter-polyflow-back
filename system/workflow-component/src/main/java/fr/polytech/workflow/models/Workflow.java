@@ -17,21 +17,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Workflow")
 public class Workflow {
-    /**
-     * id: string;
-  title: string;
-  description: string;
-  authorId: string;
-  targetId?: string;
-  attendeesIds: string[];
-  steps: WorkflowStep[];
-  creationDate: Date;
-  deadlineDate: Date;
-     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
     
     @Column(name = "title", length = 100, nullable = false)
     private String title;
@@ -49,7 +38,7 @@ public class Workflow {
 
     @ManyToMany
     @JoinTable(
-        name = "workflow_attentdees", 
+        name = "workflow_attendees", 
         joinColumns = { @JoinColumn(name = "workflow_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
     )
@@ -61,11 +50,11 @@ public class Workflow {
     @Column(name = "deadlineDate", nullable = false)
     private Date deadlineDate;
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

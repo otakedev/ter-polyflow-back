@@ -11,19 +11,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 
 public class WorkflowStep {
-    /**
-     * export interface WorkflowStep {
-            id: string;
-            title: string;
-            description: string;
-            status: WorkflowStep;
-            externalLink: string;
-            personInChargeIds: string[];
-        }
-    */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
     
     @Column(name = "title", length = 100, nullable = false)
     private String title;
@@ -45,11 +36,11 @@ public class WorkflowStep {
     )
     private List<Administrator> personInCharge;
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
