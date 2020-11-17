@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>application-component</module>
+		<module>workflow-component</module>
 		<module>webservices</module>
 	</modules>
 

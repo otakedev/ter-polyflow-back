@@ -1,4 +1,4 @@
-package fr.polytech.application;
+package fr.polytech.workflow;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

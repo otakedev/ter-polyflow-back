@@ -1,4 +1,4 @@
-package fr.polytech.application;
+package fr.polytech.workflow;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
