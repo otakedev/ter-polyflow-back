@@ -1,11 +1,16 @@
 #!/bin/bash
 PARAMS=""
 NARG=0
+MARG=dev
 while (("$#")); do
   case "$1" in
   -n | --no-compile)
     NARG=1
     break
+    ;;
+  -m | --mode)
+    MARG=$2
+    shift 2
     ;;
   --) # end argument parsing
     shift
@@ -32,4 +37,8 @@ if [[ $NARG == 0 ]]; then
 fi
 
 cd webservices
-mvn spring-boot:run
+if [[ $MARG == "dev" ]]; then
+	mvn spring-boot:run -Ptest
+else
+	mvn spring-boot:run -Pprod
+fi

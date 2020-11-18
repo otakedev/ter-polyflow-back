@@ -8,9 +8,12 @@ import javax.persistence.Table;
 @Table(name = "Student")
 public class Student extends User {
     /**
-     * age: number;
-  gender: string;
-  currentYear: string;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * age: number; gender: string; currentYear: string;
      */
     @Column(name = "age", nullable = false)
     private int age;

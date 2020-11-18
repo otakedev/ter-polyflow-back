@@ -8,6 +8,11 @@ import javax.persistence.Table;
 @Table(name = "Administrator")
 public class Administrator extends User {
     
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     @Column(name = "occupation", length = 100, nullable = false)
     private String occupation;
 

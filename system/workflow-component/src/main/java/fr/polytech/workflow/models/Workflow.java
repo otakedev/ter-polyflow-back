@@ -1,9 +1,11 @@
 package fr.polytech.workflow.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,20 +16,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Workflow")
-public class Workflow {
+public class Workflow implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(name = "title", length = 100, nullable = false)
+    @Column(name = "title", length = 500, nullable = false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="student_id", nullable=false)
     private Student target;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id", nullable=false)
     private Administrator author;
 
@@ -37,10 +44,10 @@ public class Workflow {
     @Column(name = "deadlineDate", nullable = false)
     private Date deadlineDate;
 
-    @Column(name = "subject", nullable = false)
+    @Column(name = "subject", length = 500, nullable = false)
     private String subject;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workflow_details_id")
     private WorkflowDetails details;
 

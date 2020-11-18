@@ -4,7 +4,7 @@ import { Client } from "https://deno.land/x/mysql/mod.ts";
 const client = await new Client().connect({
   hostname: "127.0.0.1",
   username: "root",
-  db: "polyflowdev",
+  db: "polyflow",
   password: "root",
 });
 
@@ -56,7 +56,7 @@ for(let i=0; i<100; i++) {
     ]);
     for(let j=0; j<10; j++) {
         const id = 10*i+j;
-        await client.execute(`INSERT INTO workflow_step(id, description, external_link, status, title, workflow_details_id) values(?, ?, ?, ?, ?)`, [
+        await client.execute(`INSERT INTO workflow_step(id, description, external_link, status, title, workflow_details_id) values(?, ?, ?, ?, ?, ?)`, [
             id,
             faker.lorem.sentences(),
             faker.internet.url(),
