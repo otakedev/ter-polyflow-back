@@ -3,13 +3,17 @@ package fr.polytech.workflow.models;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
+@Entity
+@Table(name = "WorkflowStep")
 public class WorkflowStep {
 
     @Id
@@ -31,7 +35,7 @@ public class WorkflowStep {
     @ManyToMany
     @JoinTable(
         name = "workflow_step_in_charge", 
-        joinColumns = { @JoinColumn(name = "workflow_step_id") }, 
+        joinColumns = { @JoinColumn(name = "workflowstep_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
     )
     private List<Administrator> personInCharge;

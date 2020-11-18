@@ -1,7 +1,6 @@
 package fr.polytech.workflow.models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,30 +23,42 @@ public class Workflow {
     @Column(name = "title", length = 100, nullable = false)
     private String title;
 
-    @Column(name = "description", length = 100, nullable = false)
-    private String description;
-
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name="student_id", nullable=false)
     private Student target;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name="author_id", nullable=false)
     private Administrator author;
-
-    @ManyToMany
-    @JoinTable(
-        name = "workflow_attendees", 
-        joinColumns = { @JoinColumn(name = "workflow_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
-    )
-    private List<Administrator> attendees;
 
     @Column(name = "creationDate", nullable = false)
     private Date creationDate;
 
     @Column(name = "deadlineDate", nullable = false)
     private Date deadlineDate;
+
+    @Column(name = "subject", nullable = false)
+    private String subject;
+
+    @OneToOne
+    @JoinColumn(name = "workflow_details_id")
+    private WorkflowDetails details;
+
+    public WorkflowDetails getDetails() {
+        return this.details;
+    }
+
+    public void setDetails(WorkflowDetails details) {
+        this.details = details;
+    }
+
+    public String getSubject() {
+        return this.subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public Long getId() {
         return this.id;
@@ -66,14 +76,6 @@ public class Workflow {
         this.title = title;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Student getTarget() {
         return this.target;
     }
@@ -88,14 +90,6 @@ public class Workflow {
 
     public void setAuthor(Administrator author) {
         this.author = author;
-    }
-
-    public List<Administrator> getAttendees() {
-        return this.attendees;
-    }
-
-    public void setAttendees(List<Administrator> attendees) {
-        this.attendees = attendees;
     }
 
     public Date getCreationDate() {
