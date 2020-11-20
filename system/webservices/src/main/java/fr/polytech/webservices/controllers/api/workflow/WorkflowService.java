@@ -1,4 +1,4 @@
-package fr.polytech.webservices.controllers;
+package fr.polytech.webservices.controllers.api.workflow;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @SpringBootApplication
-@RequestMapping("/api/admin")
+@RequestMapping("/api/workflow")
 @ComponentScan({ "fr.polytech.workflowmanager" })
 public class WorkflowService {
 
@@ -30,13 +30,13 @@ public class WorkflowService {
     WorkflowManager wm;
     
     @CrossOrigin
-    @GetMapping("/workflow")
+    @GetMapping("")
     public List<Workflow> getWorkflows() {
         return wm.getWorkflows();
     }
 
     @CrossOrigin
-    @GetMapping("/workflow/{id}")
+    @GetMapping("/{id}")
     public Workflow getWorkflow(@PathVariable Long id) {
         try {
             return wm.getWorkflowById(id);
@@ -46,7 +46,7 @@ public class WorkflowService {
     }
 
     @CrossOrigin
-    @PutMapping("/workflow/{workflowId}/step/{stepId}")
+    @PutMapping("/{workflowId}/step/{stepId}")
     public Workflow updateCurrentStep(@PathVariable Long workflowId, @PathVariable Long stepId) {
         try {
             return wm.updateCurrentStep(workflowId, stepId);

@@ -1,4 +1,5 @@
 import { faker } from "https://raw.githubusercontent.com/jackfiszr/deno-faker/master/mod.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 
 import { Client } from "https://deno.land/x/mysql/mod.ts";
 const client = await new Client().connect({
@@ -11,12 +12,13 @@ const client = await new Client().connect({
 await client.execute(`SELECT CONCAT('TRUNCATE TABLE ',TABLE_NAME,';') AS truncateCommand FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'polyflowdev';`);
 
 for(let i=0; i<30; i++) {
-    await client.execute(`INSERT INTO user(id, email, firstname, lastname, profile_pic_url) values(?, ?, ?, ?, ?)`, [
+    await client.execute(`INSERT INTO user(id, email, firstname, lastname, profile_pic_url, password) values(?, ?, ?, ?, ?, ?)`, [
         i,
         faker.internet.email(),
         faker.name.firstName(),
         faker.name.lastName(),
-        faker.image.imageUrl()
+        faker.image.imageUrl(),
+        await bcrypt.hash("123")
     ]);
     await client.execute(`INSERT INTO student(id, age, current_year, gender) values(?, ?, ?, ?)`, [
         i,
@@ -26,12 +28,13 @@ for(let i=0; i<30; i++) {
     ]);
 }
 
-await client.execute(`INSERT INTO user(id, email, firstname, lastname, profile_pic_url) values(?, ?, ?, ?, ?)`, [
+await client.execute(`INSERT INTO user(id, email, firstname, lastname, profile_pic_url, password) values(?, ?, ?, ?, ?, ?)`, [
     30,
-    faker.internet.email(),
+    "admin@admin.fr",
     faker.name.firstName(),
     faker.name.lastName(),
-    faker.image.imageUrl()
+    faker.image.imageUrl(),
+    await bcrypt.hash("123")
 ]);
 await client.execute(`INSERT INTO administrator(id, occupation) values(?, ?)`, [
     30,
