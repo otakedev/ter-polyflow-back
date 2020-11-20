@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,10 +28,10 @@ public class WorkflowDetails implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "description", length = 1000, nullable = false)
+    @Column(name = "description", length = 1000, nullable = true)
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
         name = "workflow_attendees", 
         joinColumns = { @JoinColumn(name = "workflow_id") }, 
@@ -40,7 +39,7 @@ public class WorkflowDetails implements Serializable {
     )
     private List<Administrator> attendees;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "workflow_details_id")
     private List<WorkflowStep> steps;
 

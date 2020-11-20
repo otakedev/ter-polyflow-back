@@ -2,10 +2,10 @@ package fr.polytech.workflow.models;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,22 +31,30 @@ public class WorkflowStep implements Serializable {
     @Column(name = "title", length = 500, nullable = false)
     private String title;
 
-    @Column(name = "description", length = 1000, nullable = false)
+    @Column(name = "description", length = 1000, nullable = true)
     private String description;
 
-    @Column(name = "status", length = 100, nullable = false)
-    private WorkflowStepStatus status;
+    @Column(name = "step_index", nullable = false)
+    private int stepIndex;
 
-    @Column(name = "externalLink", length = 100, nullable = false)
+    @Column(name = "externalLink", length = 100, nullable = true)
     private String externalLink;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
         name = "workflow_step_in_charge", 
         joinColumns = { @JoinColumn(name = "workflowstep_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
-    )    
+    )
     private List<Administrator> personInCharge;
+
+    public int getStepIndex() {
+        return this.stepIndex;
+    }
+
+    public void setStepIndex(int stepIndex) {
+        this.stepIndex = stepIndex;
+    }
 
     public Long getId() {
         return this.id;
@@ -72,14 +80,6 @@ public class WorkflowStep implements Serializable {
         this.description = description;
     }
 
-    public WorkflowStepStatus getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(WorkflowStepStatus status) {
-        this.status = status;
-    }
-
     public String getExternalLink() {
         return this.externalLink;
     }
@@ -94,6 +94,22 @@ public class WorkflowStep implements Serializable {
 
     public void setPersonInCharge(List<Administrator> personInCharge) {
         this.personInCharge = personInCharge;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof WorkflowStep)) {
+            return false;
+        }
+        WorkflowStep workflowStep = (WorkflowStep) o;
+        return Objects.equals(id, workflowStep.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
 }

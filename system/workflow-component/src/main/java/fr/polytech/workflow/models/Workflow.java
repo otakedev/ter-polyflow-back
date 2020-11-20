@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,26 +29,38 @@ public class Workflow implements Serializable {
     @Column(name = "title", length = 500, nullable = false)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="student_id", nullable=false)
+    @ManyToOne
+    @JoinColumn(name="student_id", nullable=true)
     private Student target;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="author_id", nullable=false)
     private Administrator author;
 
     @Column(name = "creationDate", nullable = false)
     private Date creationDate;
 
-    @Column(name = "deadlineDate", nullable = false)
+    @Column(name = "deadlineDate", nullable = true)
     private Date deadlineDate;
 
-    @Column(name = "subject", length = 500, nullable = false)
+    @Column(name = "subject", length = 500, nullable = true)
     private String subject;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workflow_details_id")
+    @OneToOne
+    @JoinColumn(name = "workflow_details_id", nullable = false)
     private WorkflowDetails details;
+
+    @OneToOne
+    @JoinColumn(name = "workflow_current_step_id", nullable = true)
+    private WorkflowStep workflowStep;
+
+    public WorkflowStep getWorkflowStep() {
+        return this.workflowStep;
+    }
+
+    public void setWorkflowStep(WorkflowStep workflowStep) {
+        this.workflowStep = workflowStep;
+    }
 
     public WorkflowDetails getDetails() {
         return this.details;

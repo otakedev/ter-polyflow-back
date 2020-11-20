@@ -3,7 +3,7 @@ server:
 
 spring:
     datasource:
-        url: jdbc:mysql://@database_host@:@database_port@/@database_name@?serverTimezone=Europe/Paris
+        url: jdbc:mysql://@database_host@:@database_port@/@database_name@
         username: @database_user@
         password: @database_password@
         driver-class-name: com.mysql.jdbc.Driver

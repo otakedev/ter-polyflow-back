@@ -42,27 +42,33 @@ await client.execute(`INSERT INTO administrator(id, occupation) values(?, ?)`, [
 for(let i=0; i<100; i++) {
     await client.execute(`INSERT INTO workflow_details(id, description) values(?, ?)`, [
         i, 
-        faker.lorem.sentences(),
+        faker.lorem.sentence(),
     ]);
     await client.execute(`INSERT INTO workflow(id, creation_date, deadline_date, subject, title, author_id, workflow_details_id, student_id) values(?, ?, ?, ?, ?, ?, ?, ?)`, [
         i, 
         faker.date.past(),
         faker.date.future(),
-        faker.lorem.sentences(),
-        faker.lorem.sentences(),
+        faker.lorem.sentence(),
+        faker.lorem.sentence(),
         30,
         i,
         faker.random.number()%30
     ]);
-    for(let j=0; j<10; j++) {
+    for(let j=0; j<4; j++) {
         const id = 10*i+j;
-        await client.execute(`INSERT INTO workflow_step(id, description, external_link, status, title, workflow_details_id) values(?, ?, ?, ?, ?, ?)`, [
+        await client.execute(`INSERT INTO workflow_step(id, description, external_link, title, workflow_details_id, step_index) values(?, ?, ?, ?, ?, ?)`, [
             id,
             faker.lorem.sentences(),
             faker.internet.url(),
-            faker.random.number()%3,
-            faker.lorem.sentences(),
-            i
+            faker.lorem.sentence(),
+            i,
+            j
         ]);
     }
+    await client.execute(`UPDATE workflow SET workflow_current_step_id = ? WHERE id=?`, [
+        10*i,
+        i
+    ]);
 }
+
+Deno.exit(0);
