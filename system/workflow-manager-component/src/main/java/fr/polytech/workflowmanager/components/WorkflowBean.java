@@ -54,7 +54,7 @@ public class WorkflowBean implements WorkflowManager {
 
         if(!wf.getDetails().getSteps().contains(wfs)) throw new WorkflowHasNotWorkflowStepException();
 
-        wf.setWorkflowStep(wfs);
+        wf.setCurrentStep(wfs);
         wr.save(wf);
         return wf;
     }

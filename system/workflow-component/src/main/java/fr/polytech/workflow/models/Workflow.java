@@ -52,14 +52,14 @@ public class Workflow implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "workflow_current_step_id", nullable = true)
-    private WorkflowStep workflowStep;
+    private WorkflowStep currentStep;
 
-    public WorkflowStep getWorkflowStep() {
-        return this.workflowStep;
+    public WorkflowStep getCurrentStep() {
+        return this.currentStep;
     }
 
-    public void setWorkflowStep(WorkflowStep workflowStep) {
-        this.workflowStep = workflowStep;
+    public void setCurrentStep(WorkflowStep currentStep) {
+        this.currentStep = currentStep;
     }
 
     public WorkflowDetails getDetails() {

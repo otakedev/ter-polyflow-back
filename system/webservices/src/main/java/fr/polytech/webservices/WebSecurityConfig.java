@@ -4,12 +4,15 @@ import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.dao.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 import fr.polytech.webservices.secutiry.UserDetailsServiceImpl;
+import fr.polytech.workflow.models.Role;
+import io.swagger.models.HttpMethod;
  
 @Configuration
 @EnableWebSecurity
@@ -43,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
         http.authorizeRequests()
-            .antMatchers("/api/admin/workflow/**").hasAuthority("Admin")
+            .antMatchers("/api/workflow/**").hasAuthority(Role.ADMIN.toString())
             .and()
             .formLogin().permitAll()
             .and()
