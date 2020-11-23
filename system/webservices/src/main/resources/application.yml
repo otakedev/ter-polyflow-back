@@ -16,3 +16,6 @@ spring:
         generate-ddl: true
         hibernate:
             ddl-auto: @ddlauto@
+
+env:
+    mode: @mode@
