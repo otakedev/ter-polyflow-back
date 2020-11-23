@@ -93,18 +93,6 @@
 		</plugins>
 	</build>
 	<profiles>
-        <profile>
-            <id>docker</id>
-            <properties>
-                <port>3000</port>
-                <database_host>database</database_host>
-                <database_port>3307</database_port>
-                <database_user>root</database_user>
-                <database_password>root</database_password>
-                <database_name>polyflow</database_name>
-                <ddlauto>update</ddlauto>
-            </properties>
-		</profile>
 		<profile>
             <id>travis</id>
             <properties>
@@ -114,7 +102,8 @@
                 <database_user>root</database_user>
                 <database_password></database_password>
                 <database_name>pftravis</database_name>
-                <ddlauto>create</ddlauto>
+				<ddlauto>create</ddlauto>
+				<mode>dev</mode>
             </properties>
         </profile>
     </profiles>
