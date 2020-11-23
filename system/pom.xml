@@ -94,10 +94,10 @@
                 <port>3000</port>
                 <database_host>database</database_host>
                 <database_port>3307</database_port>
-                <database_user>user</database_user>
-                <database_password>password</database_password>
-                <database_name>pftests</database_name>
-                <ddlauto>create</ddlauto>
+                <database_user>root</database_user>
+                <database_password>root</database_password>
+                <database_name>polyflow</database_name>
+                <ddlauto>update</ddlauto>
             </properties>
 		</profile>
 		<profile>
