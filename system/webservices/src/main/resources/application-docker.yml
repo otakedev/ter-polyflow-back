@@ -10,7 +10,7 @@ spring:
         username: root
         password: root
         driver-class-name: com.mysql.jdbc.Driver
-    
+
     jpa:
         database-platform: org.hibernate.dialect.MySQL5Dialect
         generate-ddl: true
@@ -18,4 +18,4 @@ spring:
             ddl-auto: update
 
 env:
-    mode: prod
+    mode: test

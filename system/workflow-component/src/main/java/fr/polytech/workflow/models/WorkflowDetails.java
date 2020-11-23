@@ -14,7 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "WorkflowDetails")
 public class WorkflowDetails implements Serializable {
@@ -32,16 +31,21 @@ public class WorkflowDetails implements Serializable {
     private String description;
 
     @ManyToMany
-    @JoinTable(
-        name = "workflow_attendees", 
-        joinColumns = { @JoinColumn(name = "workflow_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
-    )
+    @JoinTable(name = "workflow_attendees", joinColumns = { @JoinColumn(name = "workflow_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "administrator_id") })
     private List<Administrator> attendees;
 
     @OneToMany
     @JoinColumn(name = "workflow_details_id")
     private List<WorkflowStep> steps;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public List<WorkflowStep> getSteps() {
         return this.steps;
