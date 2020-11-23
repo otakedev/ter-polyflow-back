@@ -16,3 +16,6 @@ spring:
         generate-ddl: true
         hibernate:
             ddl-auto: update
+
+env:
+    mode: prod
