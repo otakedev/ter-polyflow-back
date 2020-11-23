@@ -11,10 +11,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "User")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User implements Serializable {
+public abstract class User implements Serializable {
 	
 	/**
 	 *
@@ -37,6 +39,7 @@ public class User implements Serializable {
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
 	
+	@JsonIgnore
 	@Column(name = "password", length = 100, nullable = false)
     private String password;
 
@@ -88,5 +91,8 @@ public class User implements Serializable {
 		this.profilePicUrl = profilePicUrl;
 	}
 
+	public Role getRole() {
+		return Role.STUDENT;
+	}
 
 }

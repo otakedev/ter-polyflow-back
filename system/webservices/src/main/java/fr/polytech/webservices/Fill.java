@@ -111,7 +111,7 @@ public class Fill {
                 workflow.setSubject(faker.lorem().sentence(5));
                 workflow.setTarget(student);
                 workflow.setTitle(faker.lorem().sentence(5));
-                workflow.setWorkflowStep(steps.get(faker.random().nextInt(10)));
+                workflow.setCurrentStep(steps.get(faker.random().nextInt(10)));
                 workflow.setDetails(wDetails);
                 wRepository.save(workflow);
             }

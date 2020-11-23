@@ -24,4 +24,9 @@ public class Administrator extends User {
         this.occupation = occupation;
     }
 
+    @Override
+    public Role getRole() {
+		return Role.ADMIN;
+	}
+
 }
