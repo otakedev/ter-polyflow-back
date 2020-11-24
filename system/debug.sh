@@ -30,15 +30,23 @@ path=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)
 cd $path
 if [[ $NARG == 0 ]]; then
     if [ -f settings.xml ]; then
-        mvn clean install -s settings.xml -DskipTests
+        if [[ $MARG == "dev" ]]; then
+        	mvn clean install -s settings.xml -DskipTests -Pdev
+		else
+			mvn clean install -s settings.xml -DskipTests -Pprod
+		fi
     else
-        mvn clean install -DskipTests
+		if [[ $MARG == "dev" ]]; then
+        	mvn clean install -DskipTests -Pdev
+		else
+        	mvn clean install -DskipTests -Pprod
+		fi
     fi
 fi
 
 cd webservices
 if [[ $MARG == "dev" ]]; then
-	mvn spring-boot:run -Ptest
+	mvnDebug spring-boot:run -Ptest -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000
 else
-	mvn spring-boot:run -Pprod
+	mvnDebug spring-boot:run -Pprod -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000
 fi

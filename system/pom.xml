@@ -14,7 +14,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>hello-component</module>
+		<module>workflow-component</module>
+		<module>workflow-manager-component</module>
 		<module>webservices</module>
 	</modules>
 
@@ -35,6 +36,11 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.2.3.Final</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -44,8 +50,8 @@
 			<version>3.2.3</version>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -57,14 +63,24 @@
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>2.3.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -77,29 +93,31 @@
 		</plugins>
 	</build>
 	<profiles>
-        <profile>
-            <id>docker</id>
-            <properties>
-                <port>3000</port>
-                <database_host>database</database_host>
-                <database_port>3307</database_port>
-                <database_user>user</database_user>
-                <database_password>password</database_password>
-                <database_name>tmtests</database_name>
-                <ddlauto>create</ddlauto>
-            </properties>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<port>3000</port>
+				<database_host>database</database_host>
+				<database_port>3307</database_port>
+				<database_user>user</database_user>
+				<database_password>password</database_password>
+				<database_name>pftests</database_name>
+				<ddlauto>create</ddlauto>
+				<mode>test</mode>
+			</properties>
 		</profile>
 		<profile>
-            <id>travis</id>
-            <properties>
-                <port>3000</port>
-                <database_host>localhost</database_host>
-                <database_port>3306</database_port>
-                <database_user>root</database_user>
-                <database_password></database_password>
-                <database_name>tmtravis</database_name>
-                <ddlauto>create</ddlauto>
-            </properties>
-        </profile>
-    </profiles>
+			<id>travis</id>
+			<properties>
+				<port>3000</port>
+				<database_host>localhost</database_host>
+				<database_port>3306</database_port>
+				<database_user>root</database_user>
+				<database_password></database_password>
+				<database_name>pftravis</database_name>
+				<ddlauto>create</ddlauto>
+				<mode>test</mode>
+			</properties>
+		</profile>
+	</profiles>
 </project>
