@@ -4,7 +4,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.dao.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +11,6 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 
 import fr.polytech.webservices.secutiry.UserDetailsServiceImpl;
 import fr.polytech.workflow.models.Role;
-import io.swagger.models.HttpMethod;
  
 @Configuration
 @EnableWebSecurity
