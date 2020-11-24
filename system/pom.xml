@@ -116,6 +116,7 @@
 				<database_password></database_password>
 				<database_name>pftravis</database_name>
 				<ddlauto>create</ddlauto>
+				<mode>test</mode>
 			</properties>
 		</profile>
 	</profiles>
