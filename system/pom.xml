@@ -101,7 +101,7 @@
 				<database_port>3307</database_port>
 				<database_user>user</database_user>
 				<database_password>password</database_password>
-				<database_name>tmtests</database_name>
+				<database_name>pftests</database_name>
 				<ddlauto>create</ddlauto>
 				<mode>test</mode>
 			</properties>
@@ -114,7 +114,7 @@
 				<database_port>3306</database_port>
 				<database_user>root</database_user>
 				<database_password></database_password>
-				<database_name>tmtravis</database_name>
+				<database_name>pftravis</database_name>
 				<ddlauto>create</ddlauto>
 			</properties>
 		</profile>
