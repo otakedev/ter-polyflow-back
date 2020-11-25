@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
-import fr.polytech.webservices.secutiry.UserDetailsServiceImpl;
+import fr.polytech.webservices.security.UserDetailsServiceImpl;
 import fr.polytech.workflow.models.Role;
  
 @Configuration

@@ -1,4 +1,4 @@
-package fr.polytech.webservices.secutiry;
+package fr.polytech.webservices.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

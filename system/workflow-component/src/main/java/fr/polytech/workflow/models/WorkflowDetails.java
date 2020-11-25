@@ -31,8 +31,11 @@ public class WorkflowDetails implements Serializable {
     private String description;
 
     @ManyToMany
-    @JoinTable(name = "workflow_attendees", joinColumns = { @JoinColumn(name = "workflow_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "administrator_id") })
+    @JoinTable(
+        name = "workflow_attendees", 
+        joinColumns = { @JoinColumn(name = "workflow_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
+    )
     private List<Administrator> attendees;
 
     @OneToMany
