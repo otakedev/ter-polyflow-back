@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
         http.authorizeRequests()
-            .antMatchers("/api/workflow/**").hasAuthority(Role.ADMIN.toString())
+            // .antMatchers("/api/workflow/**").hasAuthority(Role.ADMIN.toString())
             .and()
             .formLogin().permitAll()
             .and()
