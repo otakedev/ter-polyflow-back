@@ -2,14 +2,19 @@
 PARAMS=""
 NARG=0
 MARG=dev
+PARG=""
 while (("$#")); do
   case "$1" in
   -n | --no-compile)
     NARG=1
-    break
+    shift
     ;;
   -m | --mode)
     MARG=$2
+    shift 2
+    ;;
+  -p | --project)
+    PARG=$2
     shift 2
     ;;
   --) # end argument parsing
@@ -29,10 +34,34 @@ done
 path=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)
 cd $path
 if [[ $NARG == 0 ]]; then
-    if [ -f settings.xml ]; then
-        mvn clean install -s settings.xml -DskipTests
+    if [[ -z $PARG ]]; then
+      if [ -f settings.xml ]; then
+          mvn clean install -s settings.xml -DskipTests
+      else
+          mvn clean install -DskipTests
+      fi
     else
-        mvn clean install -DskipTests
+      if [[ $PARG == "wf" ]]; then
+        if [ -f settings.xml ]; then
+            mvn clean install -s ../settings.xml -DskipTests
+        else
+            mvn clean install -DskipTests
+        fi
+      elif [[ $PARG == "wfm" ]]; then
+        if [ -f settings.xml ]; then
+            mvn clean install -s ../settings.xml -DskipTests
+        else
+            mvn clean install -DskipTests
+        fi
+      elif [[ $PARG == "web" ]]; then
+        if [ -f settings.xml ]; then
+            mvn clean install -s ../settings.xml -DskipTests
+        else
+            mvn clean install -DskipTests
+        fi
+      else
+        echo $PARG "doesn't exist"
+      fi
     fi
 fi
 
