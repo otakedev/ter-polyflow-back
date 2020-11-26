@@ -28,7 +28,6 @@ public class APIService {
         return new Success();
     }
 
-    @CrossOrigin
     @GetMapping("/env")
     public String env() {
         log.info("GET : /env");
