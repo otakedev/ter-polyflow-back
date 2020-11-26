@@ -1,6 +1,7 @@
 package fr.polytech.workflow.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,6 +48,17 @@ public class WorkflowStep implements Serializable {
         inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
     )
     private List<Administrator> personInCharge;
+
+    @Column(name = "checkpointDate", nullable = true)
+    private Date checkpointDate;
+
+    public Date getCheckpointDate() {
+        return this.checkpointDate;
+    }
+
+    public void setCheckpointDate(Date checkpointDate) {
+        this.checkpointDate = checkpointDate;
+    }
 
     public int getStepIndex() {
         return this.stepIndex;

@@ -94,6 +94,7 @@ public class Fill {
                     step.setExternalLink(faker.internet().url());
                     step.setPersonInCharge(new ArrayList<>());
                     step.setStepIndex((int)k);
+                    step.setCheckpointDate(faker.date().future(3, TimeUnit.DAYS));
                     wsReposity.save(step);
                     
                     steps.add(step);

@@ -54,7 +54,7 @@ public class Workflow implements Serializable {
     @JoinColumn(name = "workflow_current_step_id", nullable = true)
     private WorkflowStep currentStep;
 
-    @Column(name = "deadlineDate", nullable = false)
+    @Column(name = "status", nullable = false)
     private WorkflowStatus status;
 
     public WorkflowStatus getStatus() {
