@@ -58,5 +58,16 @@ public class WorkflowBean implements WorkflowManager {
         wr.save(wf);
         return wf;
     }
+
+    @Override
+    public Workflow update(Workflow workflow, Long id) throws WorkflowNotFound {
+        Optional<Workflow> op = wr.findById(id);
+        if(!op.isPresent()) throw new WorkflowNotFound();
+        
+        workflow.setId(id);
+        wr.save(workflow);
+
+        return workflow;
+    }
     
 }
