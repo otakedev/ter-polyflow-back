@@ -16,6 +16,7 @@ import fr.polytech.workflow.models.Administrator;
 import fr.polytech.workflow.models.Student;
 import fr.polytech.workflow.models.Workflow;
 import fr.polytech.workflow.models.WorkflowDetails;
+import fr.polytech.workflow.models.WorkflowStatus;
 import fr.polytech.workflow.models.WorkflowStep;
 import fr.polytech.workflow.repositories.AdministratorRepository;
 import fr.polytech.workflow.repositories.StudentRepository;
@@ -113,6 +114,7 @@ public class Fill {
                 workflow.setTitle(faker.lorem().sentence(5));
                 workflow.setCurrentStep(steps.get(faker.random().nextInt(10)));
                 workflow.setDetails(wDetails);
+                workflow.setStatus(WorkflowStatus.values()[faker.random().nextInt(WorkflowStatus.values().length)]);
                 wRepository.save(workflow);
             }
         }

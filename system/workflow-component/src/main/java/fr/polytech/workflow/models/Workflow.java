@@ -54,6 +54,17 @@ public class Workflow implements Serializable {
     @JoinColumn(name = "workflow_current_step_id", nullable = true)
     private WorkflowStep currentStep;
 
+    @Column(name = "deadlineDate", nullable = false)
+    private WorkflowStatus status;
+
+    public WorkflowStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        this.status = status;
+    }
+
     public WorkflowStep getCurrentStep() {
         return this.currentStep;
     }
