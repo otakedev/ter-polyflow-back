@@ -12,4 +12,5 @@ public interface WorkflowManager {
     List<Workflow> getWorkflows();
     Workflow getWorkflowById(Long id) throws WorkflowNotFound;
     Workflow updateCurrentStep(Long workflowId, Long stepId) throws WorkflowNotFound, WorkflowStepNotFound, WorkflowHasNotWorkflowStepException;
+	Workflow update(Workflow workflow, Long id) throws WorkflowNotFound;
 }

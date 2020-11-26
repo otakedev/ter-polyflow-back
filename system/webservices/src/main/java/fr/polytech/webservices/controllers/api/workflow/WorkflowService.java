@@ -20,6 +20,7 @@ import fr.polytech.workflowmanager.components.WorkflowManager;
 import fr.polytech.workflowmanager.errors.WorkflowHasNotWorkflowStepException;
 import fr.polytech.workflowmanager.errors.WorkflowNotFound;
 import fr.polytech.workflowmanager.errors.WorkflowStepNotFound;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import java.util.List;
 
@@ -68,6 +69,20 @@ public class WorkflowService {
         } catch (WorkflowHasNotWorkflowStepException e) {
             log.error(String.format("Workflow with id %d do not contain step with id %d", workflowId, stepId));
             throw new BadRequestException();
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/{id}")
+    public Workflow update(@RequestBody Workflow workflow, @PathVariable Long id) {
+        log.info("PUT : /api/workflow/" + id);
+        Workflow workflowEdited;
+        try {
+            workflowEdited = wm.update(workflow, id);
+            return workflowEdited;
+        } catch (WorkflowNotFound e) {
+            log.error(String.format("Workflow with id %d do not exist", id));
+            throw new ResourceNotFoundException();
         }
     }
 }
