@@ -58,12 +58,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
-            .and().exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-            .and().csrf().disable().authorizeRequests()
+        http.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
+        http.authorizeRequests()
             // .antMatchers("/api/workflow/**").hasAuthority(Role.ADMIN.toString())
-            .and().formLogin().permitAll()
-            .and().logout().permitAll()
-            .and().exceptionHandling().accessDeniedPage("/403");
+            .and()
+            .formLogin().permitAll()
+            .and()
+            .logout().permitAll()
+            .and()
+            .exceptionHandling().accessDeniedPage("/403");
+        
+        http.csrf().disable();
     }
 }
