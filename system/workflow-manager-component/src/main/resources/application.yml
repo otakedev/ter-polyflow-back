@@ -16,3 +16,5 @@ spring:
         generate-ddl: true
         hibernate:
             ddl-auto: @ddlauto@
+    main:
+        allow-bean-definition-overriding: true
