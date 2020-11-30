@@ -10,8 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
+import fr.polytech.workflow.models.Administrator;
 import fr.polytech.workflow.models.Workflow;
 import fr.polytech.workflow.models.WorkflowStep;
+import fr.polytech.workflow.repositories.WorkflowDetailsRepository;
 import fr.polytech.workflow.repositories.WorkflowRepository;
 import fr.polytech.workflow.repositories.WorkflowStepRepository;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
@@ -29,6 +31,9 @@ public class WorkflowBean implements WorkflowManager {
 
     @Autowired
     WorkflowRepository wr;
+
+    @Autowired
+    WorkflowDetailsRepository wd;
 
     @Autowired
     WorkflowStepRepository wrs;
@@ -56,22 +61,27 @@ public class WorkflowBean implements WorkflowManager {
     @Override
     public Workflow getWorkflowById(Long id) throws WorkflowNotFound {
         Optional<Workflow> op = wr.findById(id);
-        if(op.isPresent()) return op.get();
+        if (op.isPresent())
+            return op.get();
         throw new WorkflowNotFound();
     }
 
     @Override
-    public Workflow updateCurrentStep(Long workflowId, Long stepId) throws WorkflowNotFound, WorkflowStepNotFound, WorkflowHasNotWorkflowStepException {
+    public Workflow updateCurrentStep(Long workflowId, Long stepId)
+            throws WorkflowNotFound, WorkflowStepNotFound, WorkflowHasNotWorkflowStepException {
         Optional<Workflow> op_workflow = wr.findById(workflowId);
-        if(!op_workflow.isPresent()) throw new WorkflowNotFound();
-        
+        if (!op_workflow.isPresent())
+            throw new WorkflowNotFound();
+
         Optional<WorkflowStep> op_workflow_step = wrs.findById(stepId);
-        if(!op_workflow_step.isPresent()) throw new WorkflowStepNotFound();
+        if (!op_workflow_step.isPresent())
+            throw new WorkflowStepNotFound();
 
         Workflow wf = op_workflow.get();
         WorkflowStep wfs = op_workflow_step.get();
 
-        if(!wf.getDetails().getSteps().contains(wfs)) throw new WorkflowHasNotWorkflowStepException();
+        if (!wf.getDetails().getSteps().contains(wfs))
+            throw new WorkflowHasNotWorkflowStepException();
 
         wf.setCurrentStep(wfs);
         wr.save(wf);
@@ -81,12 +91,25 @@ public class WorkflowBean implements WorkflowManager {
     @Override
     public Workflow update(Workflow workflow, Long id) throws WorkflowNotFound {
         Optional<Workflow> op = wr.findById(id);
-        if(!op.isPresent()) throw new WorkflowNotFound();
-        
+        if (!op.isPresent())
+            throw new WorkflowNotFound();
+
         workflow.setId(id);
         wr.save(workflow);
 
         return workflow;
+    }
+
+    @Override
+    public Workflow addAttendees(Administrator user, Long id) throws WorkflowNotFound {
+        Optional<Workflow> op = wr.findById(id);
+        if (!op.isPresent())
+            throw new WorkflowNotFound();
+        
+        Workflow w = op.get();
+        w.getDetails().getAttendees().add(user);
+        wd.save(w.getDetails());
+        return w;
     }
     
 }

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.polytech.webservices.Application;
 import fr.polytech.webservices.errors.BadRequestException;
 import fr.polytech.webservices.errors.ResourceNotFoundException;
+import fr.polytech.workflow.models.Administrator;
 import fr.polytech.workflow.models.Workflow;
 import fr.polytech.workflowmanager.components.WorkflowManager;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
@@ -91,10 +93,20 @@ public class WorkflowService {
     @PutMapping("/{id}")
     public Workflow update(@RequestBody Workflow workflow, @PathVariable Long id) {
         log.info("PUT : /api/workflow/" + id);
-        Workflow workflowEdited;
         try {
-            workflowEdited = wm.update(workflow, id);
-            return workflowEdited;
+            return wm.update(workflow, id);
+        } catch (WorkflowNotFound e) {
+            log.error(String.format("Workflow with id %d do not exist", id));
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping("/{id}/attendees")
+    public Workflow addAttendees(@RequestBody Administrator user, @PathVariable Long id) {
+        log.info("POST : /api/workflow/" + id + "/attendees");
+        try {
+            return wm.addAttendees(user, id);
         } catch (WorkflowNotFound e) {
             log.error(String.format("Workflow with id %d do not exist", id));
             throw new ResourceNotFoundException();
