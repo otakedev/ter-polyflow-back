@@ -92,8 +92,6 @@ public abstract class User implements Serializable {
 	}
 
 	@JsonIgnore
-	public Role getRole() {
-		return Role.STUDENT;
-	}
+	abstract public Role getRole();
 
 }

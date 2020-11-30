@@ -48,4 +48,9 @@ public class Student extends User {
         this.currentYear = currentYear;
     }
 
+    @Override
+    public Role getRole() {
+        return Role.STUDENT;
+    }
+
 }

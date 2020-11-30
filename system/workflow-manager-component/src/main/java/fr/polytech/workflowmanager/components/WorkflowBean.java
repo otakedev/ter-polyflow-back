@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
@@ -51,11 +52,12 @@ public class WorkflowBean implements WorkflowManager {
             throw new WorkflowFieldNotExist();
         }
         if(value == null) throw new WorkflowFieldWithNotValueException();
+        Specification<Workflow> spec = (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), "%" + value + "%");
         if(page == null) {
-            List<Workflow> workflows = wr.search(field, value);
+            List<Workflow> workflows = wr.findAll(spec);
             return workflows;
         }
-        return wr.search(field, value, PageRequest.of(page, elementPerPage));
+        return wr.findAll(spec, PageRequest.of(page, elementPerPage)).getContent();
     }
 
     @Override

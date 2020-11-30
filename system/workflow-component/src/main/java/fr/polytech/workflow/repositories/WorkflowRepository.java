@@ -3,21 +3,19 @@ package fr.polytech.workflow.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.domain.Specification;
 
 import fr.polytech.workflow.models.Workflow;
 
-public interface WorkflowRepository extends CrudRepository<Workflow, Long> {
+public interface WorkflowRepository extends CrudRepository<Workflow, Long>, JpaSpecificationExecutor<Workflow> {
 
     List<Workflow> findAll(Pageable pageable);
 
+    Page<Workflow> findAll(Specification<Workflow> specification, Pageable pageable);
+
     Optional<Workflow> findById(Long id);
-
-    @Query(value = "SELECT * FROM workflow WHERE ?1 LIKE %?2%", nativeQuery = true)
-    public List<Workflow> search(String field, String value, Pageable pageable);
-
-    @Query(value = "SELECT * FROM WORKFLOW w WHERE ?1 LIKE %?2%", nativeQuery = true)
-    public List<Workflow> search(String field, String value);
 }
