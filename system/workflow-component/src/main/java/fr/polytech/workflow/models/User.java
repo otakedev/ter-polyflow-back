@@ -91,6 +91,7 @@ public abstract class User implements Serializable {
 		this.profilePicUrl = profilePicUrl;
 	}
 
+	@JsonIgnore
 	public Role getRole() {
 		return Role.STUDENT;
 	}

@@ -42,6 +42,18 @@ public class WorkflowDetails implements Serializable {
     @JoinColumn(name = "workflow_details_id")
     private List<WorkflowStep> steps;
 
+    @OneToMany
+    @JoinColumn(name = "workflow_details_id")
+    private List<File> files;
+
+    public List<File> getFiles() {
+        return this.files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

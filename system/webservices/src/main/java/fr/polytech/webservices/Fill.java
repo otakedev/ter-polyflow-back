@@ -13,12 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import fr.polytech.workflow.models.Administrator;
+import fr.polytech.workflow.models.File;
 import fr.polytech.workflow.models.Student;
 import fr.polytech.workflow.models.Workflow;
 import fr.polytech.workflow.models.WorkflowDetails;
 import fr.polytech.workflow.models.WorkflowStatus;
 import fr.polytech.workflow.models.WorkflowStep;
 import fr.polytech.workflow.repositories.AdministratorRepository;
+import fr.polytech.workflow.repositories.FileRepository;
 import fr.polytech.workflow.repositories.StudentRepository;
 import fr.polytech.workflow.repositories.WorkflowDetailsRepository;
 import fr.polytech.workflow.repositories.WorkflowRepository;
@@ -41,6 +43,9 @@ public class Fill {
 
     @Autowired
     WorkflowDetailsRepository wdRepository;
+
+    @Autowired
+    FileRepository fRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -100,10 +105,21 @@ public class Fill {
                     steps.add(step);
                 }
 
+                List<File> files = new ArrayList<>();
+                for(long k=0; k<10; k++) {
+                    File file = new File();
+                    file.setAddedDate(faker.date().past(3, TimeUnit.DAYS));
+                    file.setName(faker.lorem().word());
+                    file.setLink(faker.internet().url());
+                    fRepository.save(file);
+                    files.add(file);
+                }
+
                 WorkflowDetails wDetails = new WorkflowDetails();
                 wDetails.setAttendees(new ArrayList<>());
                 wDetails.setDescription(String.join(" ", faker.lorem().sentences(3)));
                 wDetails.setSteps(steps);
+                wDetails.setFiles(files);
                 wdRepository.save(wDetails);
 
                 Workflow workflow = new Workflow();
