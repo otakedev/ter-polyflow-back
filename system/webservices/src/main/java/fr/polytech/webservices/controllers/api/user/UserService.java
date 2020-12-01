@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.polytech.user.components.UserManager;
 import fr.polytech.webservices.Application;
-import fr.polytech.workflow.models.User;
+import fr.polytech.entities.models.User;
 
 @RestController
 @SpringBootApplication

@@ -12,19 +12,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import fr.polytech.workflow.models.Administrator;
-import fr.polytech.workflow.models.File;
-import fr.polytech.workflow.models.Student;
-import fr.polytech.workflow.models.Workflow;
-import fr.polytech.workflow.models.WorkflowDetails;
-import fr.polytech.workflow.models.WorkflowStatus;
-import fr.polytech.workflow.models.WorkflowStep;
-import fr.polytech.workflow.repositories.AdministratorRepository;
-import fr.polytech.workflow.repositories.FileRepository;
-import fr.polytech.workflow.repositories.StudentRepository;
-import fr.polytech.workflow.repositories.WorkflowDetailsRepository;
-import fr.polytech.workflow.repositories.WorkflowRepository;
-import fr.polytech.workflow.repositories.WorkflowStepRepository;
+import fr.polytech.entities.models.Administrator;
+import fr.polytech.entities.models.File;
+import fr.polytech.entities.models.Student;
+import fr.polytech.entities.models.Workflow;
+import fr.polytech.entities.models.WorkflowDetails;
+import fr.polytech.entities.models.WorkflowStatus;
+import fr.polytech.entities.models.WorkflowStep;
+import fr.polytech.entities.repositories.AdministratorRepository;
+import fr.polytech.entities.repositories.FileRepository;
+import fr.polytech.entities.repositories.StudentRepository;
+import fr.polytech.entities.repositories.WorkflowDetailsRepository;
+import fr.polytech.entities.repositories.WorkflowRepository;
+import fr.polytech.entities.repositories.WorkflowStepRepository;
 
 @Service
 public class Fill {

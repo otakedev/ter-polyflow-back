@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import fr.polytech.webservices.security.UserDetailsServiceImpl;
-import fr.polytech.workflow.models.Role;
+import fr.polytech.entities.models.Role;
 
 @Configuration
 @EnableWebSecurity

@@ -2,8 +2,8 @@ package fr.polytech.workflowmanager.components;
 
 import java.util.List;
 
-import fr.polytech.workflow.models.Administrator;
-import fr.polytech.workflow.models.Workflow;
+import fr.polytech.entities.models.Administrator;
+import fr.polytech.entities.models.Workflow;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldWithNotValueException;
 import fr.polytech.workflowmanager.errors.WorkflowHasNotWorkflowStepException;

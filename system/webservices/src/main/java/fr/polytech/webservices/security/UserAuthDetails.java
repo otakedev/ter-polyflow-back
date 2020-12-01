@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import fr.polytech.workflow.models.User;
+import fr.polytech.entities.models.User;
 
 public class UserAuthDetails implements UserDetails {
     /**

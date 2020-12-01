@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 
 import fr.polytech.user.components.UserManager;
-import fr.polytech.workflow.models.User;
+import fr.polytech.entities.models.User;
  
 public class UserDetailsServiceImpl implements UserDetailsService {
  

@@ -11,12 +11,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
-import fr.polytech.workflow.models.Administrator;
-import fr.polytech.workflow.models.Workflow;
-import fr.polytech.workflow.models.WorkflowStep;
-import fr.polytech.workflow.repositories.WorkflowDetailsRepository;
-import fr.polytech.workflow.repositories.WorkflowRepository;
-import fr.polytech.workflow.repositories.WorkflowStepRepository;
+import fr.polytech.entities.models.Administrator;
+import fr.polytech.entities.models.Workflow;
+import fr.polytech.entities.models.WorkflowStep;
+import fr.polytech.entities.repositories.WorkflowDetailsRepository;
+import fr.polytech.entities.repositories.WorkflowRepository;
+import fr.polytech.entities.repositories.WorkflowStepRepository;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldWithNotValueException;
 import fr.polytech.workflowmanager.errors.WorkflowHasNotWorkflowStepException;
@@ -25,9 +25,9 @@ import fr.polytech.workflowmanager.errors.WorkflowPageOrElementPerPageNotSpecify
 import fr.polytech.workflowmanager.errors.WorkflowStepNotFound;
 
 @Component
-@ComponentScan("fr.polytech.workflow.repositories")
-@EntityScan("fr.polytech.workflow.models")
-@EnableJpaRepositories("fr.polytech.workflow.repositories")
+@ComponentScan("fr.polytech.entities.repositories")
+@EntityScan("fr.polytech.entities.models")
+@EnableJpaRepositories("fr.polytech.entities.repositories")
 public class WorkflowBean implements WorkflowManager {
 
     @Autowired
@@ -52,7 +52,8 @@ public class WorkflowBean implements WorkflowManager {
             throw new WorkflowFieldNotExist();
         }
         if(value == null) throw new WorkflowFieldWithNotValueException();
-        Specification<Workflow> spec = (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), "%" + value + "%");
+        StringBuilder sb = new StringBuilder("%").append(value).append("%");
+        Specification<Workflow> spec = (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), sb.toString());
         if(page == null) {
             List<Workflow> workflows = wr.findAll(spec);
             return workflows;

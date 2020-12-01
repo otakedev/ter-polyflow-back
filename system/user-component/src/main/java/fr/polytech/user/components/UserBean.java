@@ -8,13 +8,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
-import fr.polytech.workflow.models.User;
-import fr.polytech.workflow.repositories.UserRepository;
+import fr.polytech.entities.models.User;
+import fr.polytech.entities.repositories.UserRepository;
 
 @Component
-@ComponentScan("fr.polytech.workflow.repositories")
-@EntityScan("fr.polytech.workflow.models")
-@EnableJpaRepositories("fr.polytech.workflow.repositories")
+@ComponentScan("fr.polytech.entities.repositories")
+@EntityScan("fr.polytech.entities.models")
+@EnableJpaRepositories("fr.polytech.entities.repositories")
 public class UserBean implements UserManager {
 
     @Autowired
