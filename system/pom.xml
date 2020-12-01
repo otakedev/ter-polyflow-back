@@ -11,11 +11,12 @@
 	<groupId>fr.polytech</groupId>
 	<artifactId>pfe-polyflow</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<modules>
-		<module>workflow-component</module>
+		<module>entity-manager-component</module>
 		<module>workflow-manager-component</module>
+		<module>user-component</module>
 		<module>webservices</module>
 	</modules>
 

@@ -12,16 +12,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import fr.polytech.workflow.models.Administrator;
-import fr.polytech.workflow.models.Student;
-import fr.polytech.workflow.models.Workflow;
-import fr.polytech.workflow.models.WorkflowDetails;
-import fr.polytech.workflow.models.WorkflowStep;
-import fr.polytech.workflow.repositories.AdministratorRepository;
-import fr.polytech.workflow.repositories.StudentRepository;
-import fr.polytech.workflow.repositories.WorkflowDetailsRepository;
-import fr.polytech.workflow.repositories.WorkflowRepository;
-import fr.polytech.workflow.repositories.WorkflowStepRepository;
+import fr.polytech.entities.models.Administrator;
+import fr.polytech.entities.models.File;
+import fr.polytech.entities.models.Student;
+import fr.polytech.entities.models.Workflow;
+import fr.polytech.entities.models.WorkflowDetails;
+import fr.polytech.entities.models.WorkflowStatus;
+import fr.polytech.entities.models.WorkflowStep;
+import fr.polytech.entities.repositories.AdministratorRepository;
+import fr.polytech.entities.repositories.FileRepository;
+import fr.polytech.entities.repositories.StudentRepository;
+import fr.polytech.entities.repositories.WorkflowDetailsRepository;
+import fr.polytech.entities.repositories.WorkflowRepository;
+import fr.polytech.entities.repositories.WorkflowStepRepository;
 
 @Service
 public class Fill {
@@ -40,6 +43,9 @@ public class Fill {
 
     @Autowired
     WorkflowDetailsRepository wdRepository;
+
+    @Autowired
+    FileRepository fRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -93,15 +99,27 @@ public class Fill {
                     step.setExternalLink(faker.internet().url());
                     step.setPersonInCharge(new ArrayList<>());
                     step.setStepIndex((int)k);
+                    step.setCheckpointDate(faker.date().future(3, TimeUnit.DAYS));
                     wsReposity.save(step);
                     
                     steps.add(step);
+                }
+
+                List<File> files = new ArrayList<>();
+                for(long k=0; k<10; k++) {
+                    File file = new File();
+                    file.setAddedDate(faker.date().past(3, TimeUnit.DAYS));
+                    file.setName(faker.lorem().word());
+                    file.setLink(faker.internet().url());
+                    fRepository.save(file);
+                    files.add(file);
                 }
 
                 WorkflowDetails wDetails = new WorkflowDetails();
                 wDetails.setAttendees(new ArrayList<>());
                 wDetails.setDescription(String.join(" ", faker.lorem().sentences(3)));
                 wDetails.setSteps(steps);
+                wDetails.setFiles(files);
                 wdRepository.save(wDetails);
 
                 Workflow workflow = new Workflow();
@@ -113,6 +131,7 @@ public class Fill {
                 workflow.setTitle(faker.lorem().sentence(5));
                 workflow.setCurrentStep(steps.get(faker.random().nextInt(10)));
                 workflow.setDetails(wDetails);
+                workflow.setStatus(WorkflowStatus.values()[faker.random().nextInt(WorkflowStatus.values().length)]);
                 wRepository.save(workflow);
             }
         }
