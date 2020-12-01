@@ -29,5 +29,3 @@ spring:
                     auth: true
                     starttls:
                         enable: true
-env:
-    mode: @mode@

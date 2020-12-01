@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Polytech Nice-Sophia</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link
+			href="http://fonts.googleapis.com/css?family=Roboto"
+			rel="stylesheet"
+			type="text/css"
+		/>
+
+		<!-- use the font -->
+		<style>
+			body {
+				font-family: 'Roboto', sans-serif;
+                width: 100vw;
+			}
+            main {
+                width: 70%;
+                padding-right: 15px;
+                padding-left: 15px;
+                margin-right: auto;
+                margin-left: auto;
+                position: relative;
+                top: 20px;
+                padding: 20px;
+                box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.2);
+            }
+
+            main img {
+                display: block;
+                margin: auto;
+            }
+
+            footer {
+                font-size: smaller;
+                line-height: 50%;
+            }
+            header p {
+                text-align: center;
+            }
+		</style>
+	</head>
+	<body>
+        <main>
+            <header class="container">
+                <img src="http://unice.fr/polytechnice/fr/contenus-riches/images/logos/logo-polytechnice/image_full" alt="Polytech Nice Sophia Logo">
+                <p>Polytech Nice-Sophia</p>
+                <p>Université Nice Côte d'Azur</p>
+            </header>
+            <hr>
+            <div>
+                <p>
+                    Bonjour, <span th:text="${name}"></span><br>
+                    <br>
+                    Vous pouvez faire vos voeux pour les modules que vous souhaiter suivre l'an prochain à cette adresse : <a th:href="${link}">Cliquez ici</a><br>
+                    Attention, le premier arrivé est le premier servi.
+                </p>
+            </div>
+            <hr>
+            <footer>
+                <p>Polytech Nice-Sophia</p>
+                <p>930, Route des Colles - BP145</p>
+                <p>06903 Sophia-Antipolis Cedex</p>
+                <p>France</p>
+            </footer>
+        </main>
+    </body>
+</html>
