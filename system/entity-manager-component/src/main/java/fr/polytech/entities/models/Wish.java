@@ -18,7 +18,10 @@ public class Wish {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    private Long id;
+    
+    @Column(name = "uuid", nullable = false)
+    private String uuid;
 	
 	@Column(name = "creationDate", nullable = false)
     private Date creationDate;
@@ -94,4 +97,13 @@ public class Wish {
     public void setCourses(List<CourseStudent> courses) {
         this.courses = courses;
     }
+
+    public String getUuid() {
+        return this.uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
 }
