@@ -25,7 +25,11 @@ public class Application extends SpringBootServletInitializer {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void onStartup() {
-		fill.generate();
+		try {
+			fill.generate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

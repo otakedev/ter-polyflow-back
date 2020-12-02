@@ -17,6 +17,8 @@
 		<module>entity-manager-component</module>
 		<module>workflow-manager-component</module>
 		<module>user-component</module>
+		<module>course-component</module>
+		<module>wish-component</module>
 		<module>email-component</module>
 		<module>webservices</module>
 	</modules>

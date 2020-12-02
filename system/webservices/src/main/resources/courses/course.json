@@ -1,0 +1,578 @@
+[
+	{
+		"period": 1,
+		"dayOfTheWeek": 4,
+		"code": "EIINA902",
+		"description": "Architectures Logicielles 1",
+		"halfDay": 0,
+		"minor": "AL",
+		"constraints": ["EIINA900"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 4,
+		"code": "EIINA900",
+		"description": "Architectures Logicielles 2",
+		"halfDay": 0,
+		"minor": "AL",
+		"constraints": ["EIINA902"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 1,
+		"code": "EIINA904",
+		"description": "Rétro-Ingenierie, Maintenance et Evolution des Logiciels",
+		"halfDay": 0,
+		"minor": "AL",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 4,
+		"code": "EIINA901",
+		"description": "Architecture Logicielle pour le Cloud Computing",
+		"halfDay": 1,
+		"minor": "AL",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 2,
+		"code": "EIINA903",
+		"description": "Ingénierie des Modèles et Langages Spécifiques aux Domaines",
+		"halfDay": 0,
+		"minor": "AL",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 0,
+		"code": "EIINA905",
+		"description": "SOA : Intégration de Services",
+		"halfDay": 1,
+		"minor": "AL",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 4,
+		"code": "EIINC902",
+		"description": "Cybersécurité",
+		"halfDay": 1,
+		"minor": "CASPAR",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 0,
+		"code": "EIINC904",
+		"description": "Sécurité dans les Réseaux",
+		"halfDay": 1,
+		"minor": "CASPAR",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 3,
+		"code": "EIINC905",
+		"description": "Sécurité des Applications Web",
+		"halfDay": 0,
+		"minor": "CASPAR",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 0,
+		"code": "EIINC901",
+		"description": "Cryptographie et Sécurité",
+		"halfDay": 1,
+		"minor": "CASPAR",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 1,
+		"code": "EIINC903",
+		"description": "Preuves en Cryptographie",
+		"halfDay": 0,
+		"minor": "CASPAR",
+		"constraints": ["EIINC901"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 2,
+		"code": "EIIN945",
+		"description": "Security and Privacy 3.0",
+		"halfDay": 1,
+		"minor": "CASPAR",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 2,
+		"code": "EIINI901",
+		"description": "Environnement Logiciels pour la Programmation Avancée de Terminaux Mobiles 1",
+		"halfDay": 0,
+		"minor": "IAM",
+		"constraints": ["EIINI900"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 2,
+		"code": "EIINI900",
+		"description": "Environnement Logiciels pour la Programmation Avancée de Terminaux Mobiles 2",
+		"halfDay": 0,
+		"minor": "IAM",
+		"constraints": ["EIINI901"]
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIINI905",
+		"description": "Systèmes Intelligents Autonomes",
+		"halfDay": 0,
+		"minor": "IAM",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 1,
+		"code": "EIINI902",
+		"description": "Middleware for the Internet of Things",
+		"halfDay": 0,
+		"minor": "IAM",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIINI903",
+		"description": "Objets Connectés et Services 1",
+		"halfDay": 1,
+		"minor": "IAM",
+		"constraints": ["EIINI909"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 1,
+		"code": "EIINI909",
+		"description": "Objets Connectés et Services 2",
+		"halfDay": 1,
+		"minor": "IAM",
+		"constraints": ["EIINI903"]
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 4,
+		"code": "EIINH901",
+		"description": "Adaptation des Interfaces à l'Environnement",
+		"halfDay": 0,
+		"minor": "IHM",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 0,
+		"code": "EIINH902",
+		"description": "Conception et Evaluation des IHM 1",
+		"halfDay": 0,
+		"minor": "IHM",
+		"constraints": ["EIINH900"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 0,
+		"code": "EIINH900",
+		"description": "Conception et Evaluation des IHM 2",
+		"halfDay": 0,
+		"minor": "IHM",
+		"constraints": ["EIINH902"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 4,
+		"code": "EIINH903",
+		"description": "Interfaces Réparties sur Plusieurs Supports",
+		"halfDay": 0,
+		"minor": "IHM",
+		"constraints": ["EIINH902", "EIINH900", "EIINH901", "EIINH905"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 4,
+		"code": "EIINH904",
+		"description": "Interfaces Tactiles",
+		"halfDay": 1,
+		"minor": "IHM",
+		"constraints": ["EIINH902", "EIINH900", "EIINH901", "EIINH905"]
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 3,
+		"code": "EIINH905",
+		"description": "Techniques d Interaction et Multimodalité",
+		"halfDay": 0,
+		"minor": "IHM",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 4,
+		"code": "EIIN935",
+		"description": "Data Science",
+		"halfDay": 1,
+		"minor": "SD",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 4,
+		"code": "EIIN938",
+		"description": "Distributed Data Management",
+		"halfDay": 0,
+		"minor": "SD",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 0,
+		"code": "EIIN947",
+		"description": "Big Data Technologies",
+		"halfDay": 0,
+		"minor": "SD",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 0,
+		"code": "EIIN934",
+		"description": "Applied Artificial Intelligence",
+		"halfDay": 1,
+		"minor": "SD",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 0,
+		"code": "EIIN939",
+		"description": "Advanced Topics in Deep Learning",
+		"halfDay": 1,
+		"minor": "SD",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 3,
+		"code": "EIIN948",
+		"description": "Machine Learning for Image Analysis",
+		"halfDay": 0,
+		"minor": "SD",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIIN941",
+		"description": "Ingénierie des Connaissances",
+		"halfDay": 1,
+		"minor": "WEB",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIIN949",
+		"description": "Web de Données",
+		"halfDay": 0,
+		"minor": "WEB",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 1,
+		"code": "EIIN951",
+		"description": "Web Sémantique",
+		"halfDay": 1,
+		"minor": "WEB",
+		"constraints": ["EIIN949"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 1,
+		"code": "EIIN937",
+		"description": "Fouilles de Données",
+		"halfDay": 0,
+		"minor": "WEB",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 3,
+		"code": "EIIN927",
+		"description": "Programmable Web - Client-Side",
+		"halfDay": 0,
+		"minor": "WEB",
+		"constraints": ["EIIN928"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 0,
+		"code": "EIIN928",
+		"description": "Programmable Web - Server-Side",
+		"halfDay": 1,
+		"minor": "WEB",
+		"constraints": ["EIIN927"]
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 0,
+		"code": "EIIN907",
+		"description": "Graph Algorithms and Combinatorial Optimization",
+		"halfDay": 1,
+		"minor": "UBINET",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIIN936",
+		"description": "Machine Learning: Theory and Algorithms",
+		"halfDay": 1,
+		"minor": "UBINET",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 0,
+		"code": "EIIN932",
+		"description": "Algorithmic Approach to Distributed Computing",
+		"halfDay": 0,
+		"minor": "UBINET",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 4,
+		"code": "EIIN943",
+		"description": "Large-Scale Distributed Systems",
+		"halfDay": 1,
+		"minor": "UBINET",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 4,
+		"code": "EIIN904",
+		"description": "Evolving Internet",
+		"halfDay": 0,
+		"minor": "UBINET",
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 0,
+		"code": "EIIN931",
+		"description": "Virtualized Infrastructure in Cloud Computing",
+		"halfDay": 0,
+		"minor": "UBINET",
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIIN901",
+		"description": "Administration Réseau",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 0,
+		"code": "EIIN902",
+		"description": "Algorithms for Telecommunication Networks",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": ["EIIN907"]
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 2,
+		"code": "EIIN933",
+		"description": "From Shallow to Deep Learning for Multimedia Data",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 2,
+		"code": "EIIN903B",
+		"description": "Multimedia Networking",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIIN905B",
+		"description": "Model-Based Design for Cyber-Physical Systems and the Internet of Things",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 3,
+		"code": "EIIN906B",
+		"description": "Blockchain and Privacy",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 3,
+		"code": "EIIN908B",
+		"description": "Data Mining for Networks",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 2,
+		"code": "EIIN942",
+		"description": "Interagir dans un Monde 3D",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 4,
+		"code": "EIIN909",
+		"description": "Internet Measurements and New Architectures",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 0,
+		"code": "EIIN921",
+		"description": "Interprétation de Langages",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 4,
+		"code": "EIIN923",
+		"description": "Modélisation et Conception des Systèmes Embarqués",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIIN924",
+		"description": "Peer-to-Peer",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 2,
+		"code": "EIIN925",
+		"description": "Performance Evaluation of Networks",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 2,
+		"code": "EIIN926B",
+		"description": "Programmation Fine et Complexité",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 4,
+		"code": "EIIN944",
+		"description": "Réalité Virtuelle",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 2,
+		"dayOfTheWeek": 3,
+		"code": "EIIN929",
+		"description": "Smart Cards",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 1,
+		"code": "EIIN946",
+		"description": "Techniques Modernes de Programmation Concurrentes",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 3,
+		"dayOfTheWeek": null,
+		"code": "EIIN922",
+		"description": "Innovation & Recherche",
+		"halfDay": null,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 3,
+		"code": "EIIN911",
+		"description": "Management & Ethique",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 1,
+		"dayOfTheWeek": 2,
+		"code": "EMESH301",
+		"description": "Techniques d'Expression",
+		"halfDay": 1,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": 3,
+		"dayOfTheWeek": null,
+		"code": "EIIN912",
+		"description": "Projet de Fin d Etudes",
+		"halfDay": null,
+		"minor": null,
+		"constraints": []
+	},
+	{
+		"period": "1",
+		"dayOfTheWeek": 3,
+		"code": "EMOFI35",
+		"description": "Mineure DS4H",
+		"halfDay": 0,
+		"minor": null,
+		"constraints": []
+	}
+]

@@ -35,6 +35,9 @@ public class Course {
     @Column(name = "description", length = 500, nullable = false)
     private String description;
 
+    @Column(name = "halfday", nullable = false)
+    private HalfDay halfDay;
+
     @ManyToMany
     @JoinTable(
         name = "course_contraints", 
@@ -43,6 +46,13 @@ public class Course {
     )
     private List<Course> contraints;
 
+    public HalfDay getHalfDay() {
+        return this.halfDay;
+    }
+
+    public void setHalfDay(HalfDay halfDay) {
+        this.halfDay = halfDay;
+    }
 
     public Long getId() {
         return this.id;
@@ -90,6 +100,10 @@ public class Course {
 
     public void setContraints(List<Course> contraints) {
         this.contraints = contraints;
+    }
+
+    public Minor getMinor() {
+        return null;
     }
 
 }
