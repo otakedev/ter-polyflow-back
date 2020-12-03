@@ -37,13 +37,20 @@ public class UserBean implements UserManager {
         return ur.getUserByEmail(email);
     }
 
-    public void setWish(Long studentID, Wish wish) {
+    @Override
+    public void setWish(Student student, Wish wish) {
+        student.setWish(wish);
+        sr.save(student);
+    }
+
+    @Override
+    public Student getStudentById(Long studentID) {
         Optional<Student> student = sr.findById(studentID);
         if(student.isPresent())
         {
-            student.get().setWish(wish);
-            sr.save(student.get());
+            return student.get();
         }
+        return null;
     }
     
 }
