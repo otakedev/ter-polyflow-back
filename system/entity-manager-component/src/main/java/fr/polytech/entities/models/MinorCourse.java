@@ -11,7 +11,7 @@ public class MinorCourse extends Course {
     @Column(name = "minor", nullable = false)
     private Minor minor;
 
-
+    @Override
     public Minor getMinor() {
         return this.minor;
     }
