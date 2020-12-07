@@ -9,9 +9,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
+import fr.polytech.entities.models.Administrator;
 import fr.polytech.entities.models.Student;
 import fr.polytech.entities.models.User;
 import fr.polytech.entities.models.Wish;
+import fr.polytech.entities.repositories.AdministratorRepository;
 import fr.polytech.entities.repositories.StudentRepository;
 import fr.polytech.entities.repositories.UserRepository;
 
@@ -25,11 +27,19 @@ public class UserBean implements UserManager {
     UserRepository ur;
 
     @Autowired
+    AdministratorRepository ar;
+
+    @Autowired
     StudentRepository sr;
 
     @Override
     public List<User> getUsers() {
         return (List<User>) ur.findAll();
+    }
+
+    @Override
+    public List<Administrator> getAdministrators() {
+        return (List<Administrator>) ar.findAll();
     }
 
     @Override
@@ -46,11 +56,10 @@ public class UserBean implements UserManager {
     @Override
     public Student getStudentById(Long studentID) {
         Optional<Student> student = sr.findById(studentID);
-        if(student.isPresent())
-        {
+        if (student.isPresent()) {
             return student.get();
         }
         return null;
     }
-    
+
 }
