@@ -201,4 +201,11 @@ public class WishBean implements WishManager {
         wish.setCourses(wish.getCourses().stream().filter(e -> courses.contains(e.getCourse())).collect(Collectors.toList()));
         wr.save(wish);
     }
+
+    @Override
+    public Wish removeWishCourses(String uuid, List<Course> courses) throws WishNotFoundException {
+        Wish wish = getWishFromUuid(uuid);
+        removeWishCourses(wish, courses);
+        return wish;
+    }
 }

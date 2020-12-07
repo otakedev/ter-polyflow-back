@@ -26,4 +26,6 @@ public interface WishManager {
 
     void removeWishCourses(Wish wish, List<Course> courses);
 
+    Wish removeWishCourses(String uuid, List<Course> courses) throws WishNotFoundException;
+
 }
