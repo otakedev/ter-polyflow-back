@@ -9,5 +9,16 @@ spring:
             ddl-auto: create
     main:
         allow-bean-definition-overriding: true
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: noreply.polyflow@gmail.com
+        password: polyflow123
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
 env:
     mode: dev
