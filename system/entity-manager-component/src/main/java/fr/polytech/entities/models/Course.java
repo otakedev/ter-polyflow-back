@@ -40,11 +40,11 @@ public class Course {
 
     @ManyToMany
     @JoinTable(
-        name = "course_contraints", 
+        name = "course_constraints", 
         joinColumns = { @JoinColumn(name = "course_first_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "course_second_id") }
     )
-    private List<Course> contraints;
+    private List<Course> constraints;
 
     public HalfDay getHalfDay() {
         return this.halfDay;
@@ -94,12 +94,12 @@ public class Course {
         this.description = description;
     }
 
-    public List<Course> getContraints() {
-        return this.contraints;
+    public List<Course> getConstraints() {
+        return this.constraints;
     }
 
-    public void setContraints(List<Course> contraints) {
-        this.contraints = contraints;
+    public void setConstraints(List<Course> constraints) {
+        this.constraints = constraints;
     }
 
     public Minor getMinor() {

@@ -22,7 +22,7 @@ public class CourseBuilder {
     private Course createCourse(String name, Period period, int dayOfTheWeek, HalfDay halfDay) {
         Course c1 = new Course();
         c1.setCode(UUID.randomUUID().toString());
-        c1.setContraints(new ArrayList<>());
+        c1.setConstraints(new ArrayList<>());
         c1.setDayOfTheWeek(dayOfTheWeek);
         c1.setDescription(name);
         c1.setHalfDay(halfDay);
@@ -34,7 +34,7 @@ public class CourseBuilder {
     private MinorCourse createMinorCourse(Minor minor, String name, Period period, int dayOfTheWeek, HalfDay halfDay) {
         MinorCourse c1 = new MinorCourse();
         c1.setCode(UUID.randomUUID().toString());
-        c1.setContraints(new ArrayList<>());
+        c1.setConstraints(new ArrayList<>());
         c1.setDayOfTheWeek(dayOfTheWeek);
         c1.setDescription(name);
         c1.setHalfDay(halfDay);
@@ -44,9 +44,9 @@ public class CourseBuilder {
         return c1;
     }
 
-    private void contraint(Course c1, Course c2) {
-        c1.getContraints().add(c2);
-        c2.getContraints().add(c1);
+    private void constraint(Course c1, Course c2) {
+        c1.getConstraints().add(c2);
+        c2.getConstraints().add(c1);
     }
 
     private Course getCourseByName(String name) {
@@ -70,8 +70,8 @@ public class CourseBuilder {
         return this;
     }
 
-    public CourseBuilder contraint(String n1, String n2) {
-        contraint(getCourseByName(n1), getCourseByName(n2));
+    public CourseBuilder constraint(String n1, String n2) {
+        constraint(getCourseByName(n1), getCourseByName(n2));
         return this;
     }
 

@@ -26,7 +26,7 @@ class ApplicationTests {
         
         Course c1 = new Course();
         c1.setCode(UUID.randomUUID().toString());
-        c1.setContraints(new ArrayList<>());
+        c1.setConstraints(new ArrayList<>());
         c1.setDayOfTheWeek(dayOfTheWeek);
         c1.setDescription("Lorem ipsum");
         c1.setHalfDay(halfDay);

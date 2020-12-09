@@ -94,7 +94,7 @@ class WishTest {
 				.addCourse("c3", Period.FIRST_BIMONTHLY, 3, HalfDay.MORNING).render();
 		Wish wish = wishBuilder.initBuilder().addCourses(initial).render();
 		List<Course> toAdd = courseBuilder.initBuilder().addCourse("c4", Period.FIRST_BIMONTHLY, 4, HalfDay.AFTERNOON)
-				.addCourse("c5", Period.FIRST_BIMONTHLY, 2, HalfDay.MORNING).contraint("c4", "c5").render();
+				.addCourse("c5", Period.FIRST_BIMONTHLY, 2, HalfDay.MORNING).constraint("c4", "c5").render();
 		assertThrows(WishIsNotValidException.class, () -> {
 			wishManager.putWishCourses(wish,
 					toAdd.stream().filter(e -> !e.getDescription().equals("c5")).collect(Collectors.toList()));

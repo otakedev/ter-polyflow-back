@@ -124,8 +124,8 @@ public class WishBean implements WishManager {
 
     private boolean allDependenciesPresent(List<Course> courses) {
         for(Course course : courses) {
-            for(Course contraint : course.getContraints()) {
-                if(!courses.contains(contraint)) return false;
+            for(Course constraint : course.getConstraints()) {
+                if(!courses.contains(constraint)) return false;
             }
         }
         return true;
@@ -186,7 +186,7 @@ public class WishBean implements WishManager {
         /**
          * Verify there are all dependencies in courses
          */
-        if(!allDependenciesPresent(total)) throw new WishIsNotValidException(WishErrorStatus.CONTRAINT_NOT_RESPECTED, "Missing some dependencies courses");
+        if(!allDependenciesPresent(total)) throw new WishIsNotValidException(WishErrorStatus.CONSTRAINT_NOT_RESPECTED, "Missing some dependencies courses");
 
         /**
          * Verify there are not conflit between courses

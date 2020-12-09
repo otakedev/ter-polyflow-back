@@ -111,7 +111,7 @@ for code, infos in listeCours.items():
     period = infos[3]
     minor = [key for key, value in listeCoursObligatoires.items() if code in value]
     minor = minor[0] if minor else None
-    contraints = listeCoursAssocies[code] if code in listeCoursAssocies else []
+    constraints = listeCoursAssocies[code] if code in listeCoursAssocies else []
     res = {
         'period': period,
         'dayOfTheWeek': date,
@@ -119,7 +119,7 @@ for code, infos in listeCours.items():
         'description': name,
         'halfDay': halfday,
         'minor': minor,
-        'constraints': contraints
+        'constraints': constraints
     }
     courses.append(res)
 

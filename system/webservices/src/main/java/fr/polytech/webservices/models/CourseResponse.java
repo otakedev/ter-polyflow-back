@@ -15,7 +15,7 @@ public class CourseResponse {
     private String code;
     private String description;
     private HalfDay halfDay;
-    private List<String> contraints;
+    private List<String> constraints;
     private Minor minor;
 
     public CourseResponse(Course course) {
@@ -25,7 +25,7 @@ public class CourseResponse {
         this.code = course.getCode();
         this.description = course.getDescription();
         this.halfDay = course.getHalfDay();
-        this.contraints = course.getContraints().stream().map(Course::getCode).collect(Collectors.toList());
+        this.constraints = course.getConstraints().stream().map(Course::getCode).collect(Collectors.toList());
         this.minor = course.getMinor();
     }
 
@@ -77,12 +77,12 @@ public class CourseResponse {
         this.description = description;
     }
 
-    public List<String> getContraints() {
-        return this.contraints;
+    public List<String> getConstraints() {
+        return this.constraints;
     }
 
-    public void setContraints(List<String> contraints) {
-        this.contraints = contraints;
+    public void setConstraints(List<String> constraints) {
+        this.constraints = constraints;
     }
 
     public Minor getMinor() {

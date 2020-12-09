@@ -213,7 +213,7 @@ public class Fill {
             for(int i=0; i<map.get(course.getCode()).size(); i++) {
                 constraints.add(getCourseFromCode(courses, (String)map.get(course.getCode()).get(i)));
             }
-            course.setContraints(constraints);
+            course.setConstraints(constraints);
         }
         
         // try {
