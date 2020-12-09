@@ -4,6 +4,9 @@ import java.util.List;
 
 import fr.polytech.entities.models.Administrator;
 import fr.polytech.entities.models.Workflow;
+import fr.polytech.entities.models.WorkflowDetails;
+import fr.polytech.entities.models.WorkflowStep;
+import fr.polytech.workflowmanager.errors.WorkflowDetailsNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldWithNotValueException;
 import fr.polytech.workflowmanager.errors.WorkflowHasNotWorkflowStepException;
@@ -18,4 +21,6 @@ public interface WorkflowManager {
     Workflow updateCurrentStep(Long workflowId, Long stepId) throws WorkflowNotFound, WorkflowStepNotFound, WorkflowHasNotWorkflowStepException;
 	Workflow update(Workflow workflow, Long id) throws WorkflowNotFound;
 	Workflow addAttendees(Administrator user, Long id) throws WorkflowNotFound;
+	WorkflowStep getStepById(Long objectId);
+	WorkflowDetails updateDetails(WorkflowDetails workflowDetails, Long id) throws WorkflowDetailsNotExist;
 }

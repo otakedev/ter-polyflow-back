@@ -13,10 +13,12 @@ import org.springframework.stereotype.Component;
 
 import fr.polytech.entities.models.Administrator;
 import fr.polytech.entities.models.Workflow;
+import fr.polytech.entities.models.WorkflowDetails;
 import fr.polytech.entities.models.WorkflowStep;
 import fr.polytech.entities.repositories.WorkflowDetailsRepository;
 import fr.polytech.entities.repositories.WorkflowRepository;
 import fr.polytech.entities.repositories.WorkflowStepRepository;
+import fr.polytech.workflowmanager.errors.WorkflowDetailsNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldWithNotValueException;
 import fr.polytech.workflowmanager.errors.WorkflowHasNotWorkflowStepException;
@@ -34,27 +36,31 @@ public class WorkflowBean implements WorkflowManager {
     WorkflowRepository wr;
 
     @Autowired
-    WorkflowDetailsRepository wd;
+    WorkflowDetailsRepository wdr;
 
     @Autowired
     WorkflowStepRepository wrs;
 
     @Override
-    public List<Workflow> getWorkflows(String field, String value, Integer page, Integer elementPerPage) throws WorkflowFieldWithNotValueException, WorkflowFieldNotExist,
-            WorkflowPageOrElementPerPageNotSpecify {
-        if((page != null && elementPerPage == null) || (page == null && elementPerPage != null)) throw new WorkflowPageOrElementPerPageNotSpecify();
+    public List<Workflow> getWorkflows(String field, String value, Integer page, Integer elementPerPage)
+            throws WorkflowFieldWithNotValueException, WorkflowFieldNotExist, WorkflowPageOrElementPerPageNotSpecify {
+        if ((page != null && elementPerPage == null) || (page == null && elementPerPage != null))
+            throw new WorkflowPageOrElementPerPageNotSpecify();
         if (field == null && page == null)
             return (List<Workflow>) wr.findAll();
-        else if(field == null) return wr.findAll(PageRequest.of(page, elementPerPage));
+        else if (field == null)
+            return wr.findAll(PageRequest.of(page, elementPerPage));
         try {
             Workflow.class.getDeclaredField(field);
         } catch (NoSuchFieldException e) {
             throw new WorkflowFieldNotExist();
         }
-        if(value == null) throw new WorkflowFieldWithNotValueException();
+        if (value == null)
+            throw new WorkflowFieldWithNotValueException();
         StringBuilder sb = new StringBuilder("%").append(value).append("%");
-        Specification<Workflow> spec = (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), sb.toString());
-        if(page == null) {
+        Specification<Workflow> spec = (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field),
+                sb.toString());
+        if (page == null) {
             List<Workflow> workflows = wr.findAll(spec);
             return workflows;
         }
@@ -108,11 +114,31 @@ public class WorkflowBean implements WorkflowManager {
         Optional<Workflow> op = wr.findById(id);
         if (!op.isPresent())
             throw new WorkflowNotFound();
-        
+
         Workflow w = op.get();
         w.getDetails().getAttendees().add(user);
-        wd.save(w.getDetails());
+        wdr.save(w.getDetails());
         return w;
+    }
+
+    @Override
+    public WorkflowStep getStepById(Long id) {
+        Optional<WorkflowStep> op = wrs.findById(id);
+        if (op.isPresent())
+            return op.get();
+        return null;
+    }
+
+    @Override
+    public WorkflowDetails updateDetails(WorkflowDetails workflowDetails, Long id) throws WorkflowDetailsNotExist {
+        Optional<WorkflowDetails> op = wdr.findById(id);
+        if (!op.isPresent())
+            throw new WorkflowDetailsNotExist();
+
+        workflowDetails.setId(id);
+        wdr.save(workflowDetails);
+
+        return workflowDetails;
     }
     
 }

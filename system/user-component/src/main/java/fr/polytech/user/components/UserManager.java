@@ -17,5 +17,7 @@ public interface UserManager {
 
     void setWish(Student student, Wish wish);
 
-    Student getStudentById(Long studentID);
+	Student getStudentById(Long studentID);
+
+	Administrator getAdministratorById(Long objectId);
 }

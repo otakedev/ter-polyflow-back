@@ -80,14 +80,19 @@ public class Fill {
 
     private Faker faker = new Faker();
 
-    private Administrator admin;
+    private Administrator superadmin;
+
+    private List<Administrator> admins = new ArrayList<>();
 
     public void generate() throws FileNotFoundException, IOException, ParseException {
         log.info("Generating some data...");
         if (env.equals("test")) {
-            log.info("Mode test, generating test admin...");
-            createTestAdmin();
-            log.info("Test admin generated");
+            log.info("Mode test, generating super admin...");
+            createSuperAdmin();
+            log.info("super admin generated");
+            log.info("Mode test, generating some admin...");
+            createSomeAdmin();
+            log.info("super some generated");
             log.info("Generating some workflows...");
             createSomeWorkflows();
             log.info("Workflows generated");
@@ -224,7 +229,7 @@ public class Fill {
         log.info("All courses created and saved");
     }
 
-    private void createTestAdmin() {
+    private void createSuperAdmin() {
         Administrator admin = new Administrator();
         admin.setEmail("admin@admin.fr");
         admin.setFirstname("admin");
@@ -233,7 +238,21 @@ public class Fill {
         admin.setProfilePicUrl(faker.internet().url());
         admin.setOccupation(faker.lorem().word());
         aRepository.save(admin);
-        this.admin = admin;
+        this.superadmin = admin;
+    }
+
+    private void createSomeAdmin() {
+        for(long i=0; i<10l; i++) {
+            Administrator admin = new Administrator();
+            admin.setEmail(faker.internet().emailAddress());
+            admin.setFirstname(faker.name().firstName());
+            admin.setLastname(faker.name().lastName());
+            admin.setPassword(passwordEncoder.encode("password"));
+            admin.setProfilePicUrl(faker.internet().url());
+            admin.setOccupation(faker.lorem().word());
+            aRepository.save(admin);
+            admins.add(admin);
+        }
     }
 
     private void createSomeWorkflows() {
@@ -274,14 +293,14 @@ public class Fill {
                 }
 
                 WorkflowDetails wDetails = new WorkflowDetails();
-                wDetails.setAttendees(new ArrayList<>());
+                wDetails.setAttendees(admins.stream().filter(e -> faker.bool().bool()).collect(Collectors.toList()));
                 wDetails.setDescription(String.join(" ", faker.lorem().sentences(3)));
                 wDetails.setSteps(steps);
                 wDetails.setFiles(files);
                 wdRepository.save(wDetails);
 
                 Workflow workflow = new Workflow();
-                workflow.setAuthor(admin);
+                workflow.setAuthor(superadmin);
                 workflow.setCreationDate(faker.date().past(4, TimeUnit.DAYS));
                 workflow.setDeadlineDate(faker.date().future(4, TimeUnit.DAYS));
                 workflow.setSubject(faker.lorem().sentence(5));
