@@ -1,4 +1,4 @@
-package fr.polytech.webservices.controllers.api.course;
+package fr.polytech.webservices.controllers.api.user.course;
 
 import java.util.List;
 import java.util.stream.Collectors;

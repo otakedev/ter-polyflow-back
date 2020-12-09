@@ -1,4 +1,4 @@
-package fr.polytech.webservices.controllers.api.user;
+package fr.polytech.webservices.controllers.api.admin.user;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import fr.polytech.entities.models.User;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/user")
+@RequestMapping("/api/admin/user")
 @ComponentScan({ "fr.polytech.user" })
 public class UserService {
 

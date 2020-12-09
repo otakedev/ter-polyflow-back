@@ -1,4 +1,4 @@
-package fr.polytech.webservices.controllers.api.workflow;
+package fr.polytech.webservices.controllers.api.admin.workflow;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ import fr.polytech.workflowmanager.errors.WorkflowStepNotFound;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/workflow")
+@RequestMapping("/api/admin/workflow")
 @ComponentScan({ "fr.polytech.workflowmanager", "fr.polytech.usermanager" })
 public class WorkflowService {
 

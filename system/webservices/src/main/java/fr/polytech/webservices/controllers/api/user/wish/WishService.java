@@ -1,4 +1,4 @@
-package fr.polytech.webservices.controllers.api.wish;
+package fr.polytech.webservices.controllers.api.user.wish;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,17 +44,14 @@ public class WishService {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     @CrossOrigin
-    @GetMapping("")
-    public List<Wish> getWishs() {
-        log.info("GET : /api/wish");
-        return wm.getWishs();
-    }
-
-    @CrossOrigin
-    @PostMapping("/{studentid}")
-    public Wish createWish(@PathVariable Long studentid) {
-        log.info("POST : /api/wish/" + studentid);
-        return wm.createWish(studentid);
+    @GetMapping("/{uuid}")
+    public Wish getWishs(@PathVariable String uuid) {
+        log.info("GET : /api/wish/" + uuid);
+        try {
+            return wm.getWishFromUuid(uuid);
+        } catch (WishNotFoundException e) {
+            throw new ResourceNotFoundException();
+        }
     }
 
     @CrossOrigin

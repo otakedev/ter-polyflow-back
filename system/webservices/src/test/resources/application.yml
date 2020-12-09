@@ -22,3 +22,5 @@ spring:
                         enable: true
 env:
     mode: dev
+security:
+    active: false

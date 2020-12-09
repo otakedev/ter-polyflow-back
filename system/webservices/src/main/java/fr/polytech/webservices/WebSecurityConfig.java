@@ -2,6 +2,7 @@ package fr.polytech.webservices;
 
 import com.google.inject.internal.util.ImmutableList;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.*;
@@ -21,6 +22,9 @@ import fr.polytech.entities.models.Role;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${security.active}")
+    private boolean active;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -66,9 +70,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
+        if(active)
         http.cors().and().authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS,"*").permitAll()
-            .antMatchers("/api/workflow/**").hasAuthority(Role.ADMIN.toString())
+            .antMatchers("/api/admin/**").hasAuthority(Role.ADMIN.toString())
+            .and()
+            .formLogin().permitAll()
+            .and()
+            .logout().permitAll()
+            .and()
+            .exceptionHandling().accessDeniedPage("/403"); 
+        else
+        http.cors().and().authorizeRequests()
+            .antMatchers(HttpMethod.OPTIONS,"*").permitAll()
             .and()
             .formLogin().permitAll()
             .and()
