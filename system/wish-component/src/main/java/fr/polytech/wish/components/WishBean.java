@@ -26,6 +26,7 @@ import fr.polytech.entities.models.Wish;
 import fr.polytech.entities.models.WishStatus;
 import fr.polytech.entities.repositories.WishRepository;
 import fr.polytech.user.components.UserManager;
+import fr.polytech.wish.errors.WishErrorStatus;
 import fr.polytech.wish.errors.WishIsNotValidException;
 import fr.polytech.wish.errors.WishNotFoundException;
 
@@ -159,7 +160,7 @@ public class WishBean implements WishManager {
             removeMinorCourses(wish, minor);
             List<Course> optionCourses = wish.getCourses().stream().map(CourseStudent::getCourse).collect(Collectors.toList());
             for(Course course : cm.getCoursesWithMinor(minor)) {
-                if(!cm.courseAreCompatibleWithList(optionCourses, course)) throw new WishIsNotValidException();
+                if(!cm.courseAreCompatibleWithList(optionCourses, course)) throw new WishIsNotValidException(WishErrorStatus.CONFLICT_COURSE, "There are some courses at the same time slot between option courses and minor courses");
             }
         }
         wish.setMinor(minor);
@@ -171,12 +172,12 @@ public class WishBean implements WishManager {
         /**
          *  Verify there are not too courses
          */
-        if(!capacityToAddCourse(wish, courses.size())) throw new WishIsNotValidException();
+        if(!capacityToAddCourse(wish, courses.size())) throw new WishIsNotValidException(WishErrorStatus.OPTINAL_COURSE_FULL, "There are too courses. Please remove some of them");
 
         /**
          *  Verify there a not minor course following by the student
          */
-        if(!allCourseAreNotWishMinor(wish, courses)) throw new WishIsNotValidException();
+        if(!allCourseAreNotWishMinor(wish, courses)) throw new WishIsNotValidException(WishErrorStatus.COURSE_ALREADY_MANDATORY, "Some courses on option list are already on the course minor");
 
         List<Course> total = new ArrayList<>(courses);
         List<Course> optionCourses = wish.getCourses().stream().map(CourseStudent::getCourse).collect(Collectors.toList());
@@ -185,12 +186,12 @@ public class WishBean implements WishManager {
         /**
          * Verify there are all dependencies in courses
          */
-        if(!allDependenciesPresent(total)) throw new WishIsNotValidException();
+        if(!allDependenciesPresent(total)) throw new WishIsNotValidException(WishErrorStatus.CONTRAINT_NOT_RESPECTED, "Missing some dependencies courses");
 
         /**
          * Verify there are not conflit between courses
          */
-        if(!coursesCanBeAdded(wish, courses)) throw new WishIsNotValidException();
+        if(!coursesCanBeAdded(wish, courses)) throw new WishIsNotValidException(WishErrorStatus.CONFLICT_COURSE, "There are some courses at the same time slot");
         
         wish.getCourses().addAll(courses.stream().map(e -> cm.createCourseStudent(e)).collect(Collectors.toList()));
         wr.save(wish);

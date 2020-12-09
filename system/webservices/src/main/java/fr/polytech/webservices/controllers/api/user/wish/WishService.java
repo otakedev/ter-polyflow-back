@@ -63,7 +63,7 @@ public class WishService {
         } catch (WishNotFoundException e) {
             throw new ResourceNotFoundException();
         } catch (WishIsNotValidException e) {
-            throw new BadRequestException();
+            throw new BadRequestException(e.getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ public class WishService {
         } catch (WishNotFoundException e) {
             throw new ResourceNotFoundException();
         } catch (WishIsNotValidException e) {
-            throw new BadRequestException();
+            throw new BadRequestException(e.getMessage());
         }
     }
 }

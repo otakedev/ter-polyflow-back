@@ -153,16 +153,4 @@ public class WorkflowAdminService {
             throw new ResourceNotFoundException();
         }
     }
-
-    @CrossOrigin
-    @PutMapping("/{id}/test")
-    public WorkflowDetails test(@PathVariable Long id) {
-        WorkflowDetails workflowDetails;
-        try {
-            workflowDetails = wm.getWorkflowById(id).getDetails();
-            return wm.updateDetails(workflowDetails, workflowDetails.getId());
-        } catch (WorkflowDetailsNotExist | WorkflowNotFound e) {
-            throw new ResourceNotFoundException();
-        }
-    }
 }
