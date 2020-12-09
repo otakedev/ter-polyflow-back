@@ -38,7 +38,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/workflow")
 @ComponentScan({ "fr.polytech.workflowmanager", "fr.polytech.usermanager" })
-public class WorkflowService {
+public class WorkflowAdminService {
 
     @Autowired
     WorkflowManager wm;

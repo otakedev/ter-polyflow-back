@@ -23,7 +23,7 @@ import fr.polytech.entities.models.Wish;
 @SpringBootApplication
 @RequestMapping("/api/admin/wish")
 @ComponentScan({ "fr.polytech.wish" })
-public class WishService {
+public class WishAdminService {
 
     @Autowired
     WishManager wm;

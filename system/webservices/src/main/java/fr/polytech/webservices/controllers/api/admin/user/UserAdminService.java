@@ -20,7 +20,7 @@ import fr.polytech.entities.models.User;
 @CrossOrigin
 @RequestMapping("/api/admin/user")
 @ComponentScan({ "fr.polytech.user" })
-public class UserService {
+public class UserAdminService {
 
     @Autowired
     UserManager um;

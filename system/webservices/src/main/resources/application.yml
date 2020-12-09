@@ -31,3 +31,5 @@ spring:
                         enable: true
 env:
     mode: @mode@
+security:
+    active: false

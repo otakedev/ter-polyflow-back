@@ -1,6 +1,5 @@
 package fr.polytech.webservices.controllers.api.user.wish;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -14,13 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.polytech.wish.components.WishManager;
 import fr.polytech.wish.errors.WishIsNotValidException;
 import fr.polytech.wish.errors.WishNotFoundException;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import fr.polytech.webservices.Application;
 import fr.polytech.webservices.errors.BadRequestException;
 import fr.polytech.webservices.errors.ResourceNotFoundException;
@@ -45,7 +44,7 @@ public class WishService {
 
     @CrossOrigin
     @GetMapping("/{uuid}")
-    public Wish getWishs(@PathVariable String uuid) {
+    public Wish getWish(@PathVariable String uuid) {
         log.info("GET : /api/wish/" + uuid);
         try {
             return wm.getWishFromUuid(uuid);
