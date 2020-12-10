@@ -274,4 +274,60 @@ class WishTest {
 
 	}
 
+	@Test
+	void setCancellableCourse1() {
+		List<Course> initial = courseBuilder.initBuilder().addCourse("c1", Period.FIRST_BIMONTHLY, 2, HalfDay.AFTERNOON)
+				.addCourse("c2", Period.FIRST_BIMONTHLY, 1, HalfDay.AFTERNOON, Minor.AL)
+				.addCourse("c3", Period.FIRST_BIMONTHLY, 3, HalfDay.MORNING, Minor.AL)
+				.addCourse("c4", Period.SECOND_BIMONTHLY, 3, HalfDay.MORNING)
+				.addCourse("c5", Period.SECOND_BIMONTHLY, 3, HalfDay.AFTERNOON).render();
+		Wish wish = wishBuilder.initBuilder().addCourses(initial).render();
+		wish.setSandwichCourse(true);
+		Mockito.when(wr.getWishByUuid("test")).thenReturn(wish);
+		Mockito.when(cr.getCourseByCode(initial.get(1).getCode())).thenReturn(initial.get(1));
+		assertDoesNotThrow(() -> {
+			wishManager.putWishMinor(wish, Minor.IHM);
+		});
+		assertDoesNotThrow(() -> {
+			wishManager.setCancellableCourse("test", initial.get(1).getCode());
+		});
+	}
+
+	@Test
+	void setCancellableCourse2() {
+		List<Course> initial = courseBuilder.initBuilder().addCourse("c1", Period.FIRST_BIMONTHLY, 2, HalfDay.AFTERNOON)
+				.addCourse("c2", Period.FIRST_BIMONTHLY, 1, HalfDay.AFTERNOON, Minor.AL)
+				.addCourse("c3", Period.FIRST_BIMONTHLY, 3, HalfDay.MORNING, Minor.AL)
+				.addCourse("c4", Period.SECOND_BIMONTHLY, 3, HalfDay.MORNING)
+				.addCourse("c5", Period.SECOND_BIMONTHLY, 3, HalfDay.AFTERNOON).render();
+		Wish wish = wishBuilder.initBuilder().addCourses(initial).render();
+		Mockito.when(wr.getWishByUuid("test")).thenReturn(wish);
+		Mockito.when(cr.getCourseByCode(initial.get(1).getCode())).thenReturn(initial.get(1));
+		assertDoesNotThrow(() -> {
+			wishManager.putWishMinor(wish, Minor.IHM);
+		});
+		assertThrows(WishIsNotValidException.class, () -> {
+			wishManager.setCancellableCourse("test", initial.get(1).getCode());
+		});
+	}
+
+	@Test
+	void setCancellableCourse3() {
+		List<Course> initial = courseBuilder.initBuilder().addCourse("c1", Period.FIRST_BIMONTHLY, 2, HalfDay.AFTERNOON)
+				.addCourse("c2", Period.FIRST_BIMONTHLY, 1, HalfDay.AFTERNOON, Minor.AL)
+				.addCourse("c3", Period.FIRST_BIMONTHLY, 3, HalfDay.MORNING, Minor.AL)
+				.addCourse("c4", Period.SECOND_BIMONTHLY, 3, HalfDay.MORNING)
+				.addCourse("c5", Period.SECOND_BIMONTHLY, 3, HalfDay.AFTERNOON).render();
+		Wish wish = wishBuilder.initBuilder().addCourses(initial).render();
+		wish.setSandwichCourse(true);
+		Course other = courseBuilder.initBuilder().addCourse("c5", Period.FIRST_BIMONTHLY, 2, HalfDay.AFTERNOON).render().get(0);
+		Mockito.when(wr.getWishByUuid("test")).thenReturn(wish);
+		Mockito.when(cr.getCourseByCode(other.getCode())).thenReturn(other);
+		assertDoesNotThrow(() -> {
+			wishManager.putWishMinor(wish, Minor.IHM);
+		});
+		assertThrows(WishIsNotValidException.class, () -> {
+			wishManager.setCancellableCourse("test", other.getCode());
+		});
+	}
 }

@@ -2,6 +2,7 @@ package fr.polytech.wish.components;
 
 import java.util.List;
 
+import fr.polytech.course.errors.CourseNotFoundException;
 import fr.polytech.entities.models.Course;
 import fr.polytech.entities.models.Minor;
 import fr.polytech.entities.models.Wish;
@@ -27,5 +28,11 @@ public interface WishManager {
     void removeWishCourses(Wish wish, List<Course> courses);
 
     Wish removeWishCourses(String uuid, List<Course> courses) throws WishNotFoundException;
+
+    Wish submitWish(String uuid) throws WishIsNotValidException, WishNotFoundException;
+
+    Wish setCancellableCourse(String uuid, String code) throws WishNotFoundException, CourseNotFoundException, WishIsNotValidException;
+
+    Wish setSandwich(String uuid, boolean value) throws WishNotFoundException;
 
 }

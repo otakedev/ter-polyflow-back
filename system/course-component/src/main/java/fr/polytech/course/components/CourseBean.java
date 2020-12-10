@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
+import fr.polytech.course.errors.CourseNotFoundException;
 import fr.polytech.entities.models.Course;
 import fr.polytech.entities.models.CourseStatus;
 import fr.polytech.entities.models.CourseStudent;
@@ -37,7 +38,6 @@ public class CourseBean implements CourseManager {
         return (List<Course>) cr.findAll();
     }
 
-    @Override
     public Course findCourseByCode(String code) {
         return cr.getCourseByCode(code);
     }
@@ -71,6 +71,13 @@ public class CourseBean implements CourseManager {
         courseStudent.setStatus(CourseStatus.IN_PROGRESS);
         csr.save(courseStudent);
         return courseStudent;
+    }
+
+    @Override
+    public Course getCourseByCode(String code) throws CourseNotFoundException {
+        Course course = findCourseByCode(code);
+        if(course == null) throw new CourseNotFoundException();
+        return course;
     }
 
     

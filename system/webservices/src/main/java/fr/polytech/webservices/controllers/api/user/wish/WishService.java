@@ -24,9 +24,10 @@ import fr.polytech.webservices.Application;
 import fr.polytech.webservices.errors.BadRequestException;
 import fr.polytech.webservices.errors.ResourceNotFoundException;
 import fr.polytech.webservices.models.CoursesBody;
+import fr.polytech.webservices.models.WishResponse;
 import fr.polytech.course.components.CourseManager;
+import fr.polytech.course.errors.CourseNotFoundException;
 import fr.polytech.entities.models.Minor;
-import fr.polytech.entities.models.Wish;
 
 @RestController
 @SpringBootApplication
@@ -44,10 +45,10 @@ public class WishService {
 
     @CrossOrigin
     @GetMapping("/{uuid}")
-    public Wish getWish(@PathVariable String uuid) {
+    public WishResponse getWish(@PathVariable String uuid) {
         log.info("GET : /api/wish/" + uuid);
         try {
-            return wm.getWishFromUuid(uuid);
+            return new WishResponse(wm.getWishFromUuid(uuid));
         } catch (WishNotFoundException e) {
             throw new ResourceNotFoundException();
         }
@@ -55,11 +56,17 @@ public class WishService {
 
     @CrossOrigin
     @PostMapping("/{uuid}/courses")
-    public Wish addCourses(@PathVariable String uuid, @RequestBody CoursesBody courses) {
+    public WishResponse addCourses(@PathVariable String uuid, @RequestBody CoursesBody courses) {
         log.info("POST : /api/wish/" + uuid + "/courses");
         try {
-            return wm.putWishCourses(uuid, courses.code.stream().map(coursecode -> cm.findCourseByCode(coursecode))
-                    .collect(Collectors.toList()));
+            return new WishResponse(wm.putWishCourses(uuid, courses.code.stream().map(coursecode -> {
+                try {
+                    return cm.getCourseByCode(coursecode);
+                } catch (CourseNotFoundException e) {
+                    throw new BadRequestException();
+                }
+            })
+                    .collect(Collectors.toList())));
         } catch (WishNotFoundException e) {
             throw new ResourceNotFoundException();
         } catch (WishIsNotValidException e) {
@@ -69,11 +76,17 @@ public class WishService {
 
     @CrossOrigin
     @DeleteMapping("/{uuid}/courses")
-    public Wish deleteCourses(@PathVariable String uuid, @RequestBody CoursesBody courses) {
+    public WishResponse deleteCourses(@PathVariable String uuid, @RequestBody CoursesBody courses) {
         log.info("DELETE : /api/wish/" + uuid + "/courses");
         try {
-            return wm.removeWishCourses(uuid, courses.code.stream().map(coursecode -> cm.findCourseByCode(coursecode))
-                    .collect(Collectors.toList()));
+            return new WishResponse(wm.removeWishCourses(uuid, courses.code.stream().map(coursecode -> {
+                try {
+                    return cm.getCourseByCode(coursecode);
+                } catch (CourseNotFoundException e) {
+                    throw new BadRequestException();
+                }
+            })
+                    .collect(Collectors.toList())));
         } catch (WishNotFoundException e) {
             throw new ResourceNotFoundException();
         }
@@ -81,14 +94,54 @@ public class WishService {
 
     @CrossOrigin
     @PutMapping("/{uuid}/minor")
-    public Wish putMinor(@PathVariable String uuid, @RequestBody Minor minor) {
+    public WishResponse putMinor(@PathVariable String uuid, @RequestBody Minor minor) {
         log.info("PUT : /api/wish/" + uuid + "/minor");
         try {
-            return wm.putWishMinor(uuid, minor);
+            return new WishResponse(wm.putWishMinor(uuid, minor));
         } catch (WishNotFoundException e) {
             throw new ResourceNotFoundException();
         } catch (WishIsNotValidException e) {
             throw new BadRequestException(e.getMessage());
         }
     }
+
+    @CrossOrigin
+    @PutMapping("/{uuid}/submite")
+    public WishResponse submit(@PathVariable String uuid) {
+        log.info("PUT : /api/wish/" + uuid + "/submit");
+        try {
+            return new WishResponse(wm.submitWish(uuid));
+        } catch (WishNotFoundException e) {
+            throw new ResourceNotFoundException();
+        } catch (WishIsNotValidException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/{uuid}/sandwichcourse")
+    public WishResponse putSandwich(@PathVariable String uuid, @RequestBody Boolean value) {
+        log.info("PUT : /api/wish/" + uuid + "/sandwichcourse");
+        try {
+            return new WishResponse(wm.setSandwich(uuid, value));
+        } catch (WishNotFoundException e) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/{uuid}/cancellableCourse")
+    public WishResponse putCancellableCourse(@PathVariable String uuid, @RequestBody String code) {
+        log.info("PUT : /api/wish/" + uuid + "/cancellableCourse");
+        try {
+            return new WishResponse(wm.setCancellableCourse(uuid, code));
+        } catch (WishNotFoundException e) {
+            throw new ResourceNotFoundException();
+        } catch (CourseNotFoundException e) {
+            throw new BadRequestException();
+        } catch (WishIsNotValidException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
 }

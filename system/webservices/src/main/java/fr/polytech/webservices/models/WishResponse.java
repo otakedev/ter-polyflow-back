@@ -1,54 +1,37 @@
-package fr.polytech.entities.models;
+package fr.polytech.webservices.models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import fr.polytech.entities.models.Minor;
+import fr.polytech.entities.models.Wish;
+import fr.polytech.entities.models.WishStatus;
 
-@Entity
-@Table(name = "Wish")
-public class Wish {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class WishResponse {
     private Long id;
-    
-    @Column(name = "uuid", nullable = false)
     private String uuid;
-	
-	@Column(name = "creationDate", nullable = false)
     private Date creationDate;
-    
-    @Column(name = "expirationDate", nullable = false)
     private Date expiratioDate;
-
-    @Column(name = "lastSubmitionDate", nullable = true)
     private Date lastSubmitionDate;
-
-    @Column(name = "wishStatus", length = 100, nullable = false)
     private WishStatus wishStatus;
-
-    @Column(name = "minor", length = 100, nullable = true)
     private Minor minor;
-
-    @Column(name = "sandwich_course", nullable = true)
     private Boolean sandwichCourse;
+    private CourseResponse cancelableCourse;
+    private List<CourseStudentResponse> courses;
 
-    @ManyToOne
-    @JoinColumn(name = "cancelable_course_id")
-    private Course cancelableCourse;
-
-    @OneToMany
-    @JoinColumn(name = "wish_id")
-    private List<CourseStudent> courses;
+    public WishResponse(Wish wish) {
+        this.id = wish.getId();
+        this.uuid = wish.getUuid();
+        this.creationDate = wish.getCreationDate();
+        this.expiratioDate = wish.getExpiratioDate();
+        this.lastSubmitionDate = wish.getLastSubmitionDate();
+        this.wishStatus = wish.getWishStatus();
+        this.minor = wish.getMinor();
+        this.sandwichCourse = wish.getSandwichCourse();
+        this.cancelableCourse = wish.getCancelableCourse() == null ? null : new CourseResponse(wish.getCancelableCourse());
+        this.courses = wish.getCourses().stream().map(e -> new CourseStudentResponse(e)).collect(Collectors.toList());
+    }
 
     public Long getId() {
         return this.id;
@@ -56,6 +39,14 @@ public class Wish {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return this.uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Date getCreationDate() {
@@ -98,22 +89,6 @@ public class Wish {
         this.minor = minor;
     }
 
-    public List<CourseStudent> getCourses() {
-        return this.courses;
-    }
-
-    public void setCourses(List<CourseStudent> courses) {
-        this.courses = courses;
-    }
-
-    public String getUuid() {
-        return this.uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public Boolean isSandwichCourse() {
         return this.sandwichCourse;
     }
@@ -126,12 +101,20 @@ public class Wish {
         this.sandwichCourse = sandwichCourse;
     }
 
-    public Course getCancelableCourse() {
+    public CourseResponse getCancelableCourse() {
         return this.cancelableCourse;
     }
 
-    public void setCancelableCourse(Course cancelableCourse) {
+    public void setCancelableCourse(CourseResponse cancelableCourse) {
         this.cancelableCourse = cancelableCourse;
     }
 
+    public List<CourseStudentResponse> getCourses() {
+        return this.courses;
+    }
+
+    public void setCourses(List<CourseStudentResponse> courses) {
+        this.courses = courses;
+    }
+    
 }

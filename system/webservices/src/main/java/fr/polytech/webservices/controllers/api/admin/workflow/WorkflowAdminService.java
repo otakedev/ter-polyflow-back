@@ -25,7 +25,6 @@ import fr.polytech.entities.models.Workflow;
 import fr.polytech.entities.models.WorkflowDetails;
 import fr.polytech.user.components.UserManager;
 import fr.polytech.workflowmanager.components.WorkflowManager;
-import fr.polytech.workflowmanager.errors.WorkflowDetailsNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldWithNotValueException;
 import fr.polytech.workflowmanager.errors.WorkflowHasNotWorkflowStepException;
