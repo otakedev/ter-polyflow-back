@@ -13,6 +13,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import fr.polytech.email.errors.MessageNotSentException;
+
 @Component
 @ComponentScan("org.springframework.mail")
 public class EmailBean implements EmailSender {
@@ -21,16 +23,23 @@ public class EmailBean implements EmailSender {
     private JavaMailSender emailSender;
 
     @Override
-    public void sendTemplateMessage(String to, String subject, String text) throws MessagingException {
+    public void sendTemplateMessage(String to, String subject, String text) throws MessageNotSentException {
         MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,
+        
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message,
                 MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                 StandardCharsets.UTF_8.name());
-        helper.setFrom("noreply@polytech.unice.fr");
-        helper.setTo(to); 
-        helper.setSubject(subject); 
-        helper.setText(text, true);
-        emailSender.send(message);
+            helper.setFrom("noreply@polytech.unice.fr");
+            helper.setTo(to); 
+            helper.setSubject(subject); 
+            helper.setText(text, true);
+            emailSender.send(message);
+        } catch (MessagingException e) {
+            throw new MessageNotSentException();
+        }
+        
+        
     }
 
     @Override
@@ -44,14 +53,9 @@ public class EmailBean implements EmailSender {
     }
 
     @Override
-    public void sendMultipleTemplateMessage(List<String> contacts, String subject, String text) throws MessagingException {
-        contacts.forEach(to -> {
-            try {
-                this.sendTemplateMessage(to, subject, text);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        });
+    public void sendMultipleTemplateMessage(List<String> contacts, String subject, String text)
+            throws MessageNotSentException {
+        for(String to : contacts) this.sendTemplateMessage(to, subject, text);
     }
     
 }

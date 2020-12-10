@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.mail.MessagingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +16,7 @@ import fr.polytech.course.components.CourseManager;
 import fr.polytech.course.errors.CourseNotFoundException;
 import fr.polytech.email.components.EmailSender;
 import fr.polytech.email.components.content.ContentBuilder;
+import fr.polytech.email.errors.MessageNotSentException;
 import fr.polytech.entities.models.Course;
 import fr.polytech.entities.models.CourseStudent;
 import fr.polytech.entities.models.Minor;
@@ -65,7 +64,8 @@ public class WishBean implements WishManager {
     @Override
     public Wish getWishFromUuid(String uuid) throws WishNotFoundException {
         Wish wish = wr.getWishByUuid(uuid);
-        if(wish == null) throw new WishNotFoundException();
+        if (wish == null)
+            throw new WishNotFoundException();
         return wish;
     }
 
@@ -86,9 +86,7 @@ public class WishBean implements WishManager {
             es.sendTemplateMessage(student.getEmail(), "Vos voeux sont disponibles",
                     cb.init("wishes").put("name", student.getFirstname() + " " + student.getLastname())
                             .put("link", WISHLINK + wish.getUuid()).render());
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        } catch (MessageNotSentException e) {} //Message not sent, but wish is created, we continue.
         um.setWish(student, wish);
         return wish;
     }
