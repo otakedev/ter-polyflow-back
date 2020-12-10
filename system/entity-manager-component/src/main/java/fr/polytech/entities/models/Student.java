@@ -2,6 +2,8 @@ package fr.polytech.entities.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +25,18 @@ public class Student extends User {
 
     @Column(name = "currentYear", length = 100, nullable = false)
     private String currentYear;
+
+    @OneToOne
+    @JoinColumn(name = "wish_id")
+    private Wish wish;
+
+    public Wish getWish() {
+        return this.wish;
+    }
+
+    public void setWish(Wish wish) {
+        this.wish = wish;
+    }
 
     public int getAge() {
         return this.age;

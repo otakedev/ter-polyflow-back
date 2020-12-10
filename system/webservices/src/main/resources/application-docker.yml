@@ -20,3 +20,5 @@ spring:
         allow-bean-definition-overriding: true
 env:
     mode: test
+security:
+    active: true

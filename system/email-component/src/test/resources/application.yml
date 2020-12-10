@@ -1,0 +1,20 @@
+spring:
+    datasource:
+        url: jdbc:h2:~/test;AUTO_SERVER=TRUE
+    
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL5Dialect
+        generate-ddl: true
+        hibernate:
+            ddl-auto: create
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: noreply.polyflow@gmail.com
+        password: polyflow123
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true

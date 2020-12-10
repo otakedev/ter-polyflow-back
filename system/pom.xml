@@ -11,12 +11,15 @@
 	<groupId>fr.polytech</groupId>
 	<artifactId>pfe-polyflow</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 
 	<modules>
 		<module>entity-manager-component</module>
 		<module>workflow-manager-component</module>
 		<module>user-component</module>
+		<module>course-component</module>
+		<module>wish-component</module>
+		<module>email-component</module>
 		<module>webservices</module>
 	</modules>
 
@@ -60,6 +63,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.193</version>
+		 </dependency>
+		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>3.0.0</version>
@@ -74,6 +82,12 @@
 			<artifactId>javafaker</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
