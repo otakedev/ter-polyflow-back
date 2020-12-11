@@ -21,4 +21,4 @@ spring:
 env:
     mode: test
 security:
-    active: true
+    active: false
