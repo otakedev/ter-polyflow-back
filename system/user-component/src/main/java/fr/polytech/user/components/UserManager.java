@@ -2,6 +2,7 @@ package fr.polytech.user.components;
 
 import java.util.List;
 
+import fr.polytech.email.errors.MessageNotSentException;
 import fr.polytech.entities.models.Administrator;
 import fr.polytech.entities.models.Student;
 import fr.polytech.entities.models.User;
@@ -20,4 +21,6 @@ public interface UserManager {
 	Student getStudentById(Long studentID);
 
 	Administrator getAdministratorById(Long objectId);
+
+	Administrator createAdmin(String email, String firstname, String lastname, String occupation) throws MessageNotSentException;
 }

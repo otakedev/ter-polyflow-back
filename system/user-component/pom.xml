@@ -20,6 +20,11 @@
 			<artifactId>entity-manager-component</artifactId>
 			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>fr.polytech</groupId>
+			<artifactId>email-component</artifactId>
+			<version>1.2.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	  
 	  <build>

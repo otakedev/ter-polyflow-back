@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import fr.polytech.email.components.EmailSender;
+import fr.polytech.email.components.content.ContentBuilder;
+import fr.polytech.email.errors.MessageNotSentException;
 import fr.polytech.entities.models.Administrator;
 import fr.polytech.entities.models.Student;
 import fr.polytech.entities.models.User;
@@ -22,6 +26,17 @@ import fr.polytech.entities.repositories.UserRepository;
 @EntityScan("fr.polytech.entities.models")
 @EnableJpaRepositories("fr.polytech.entities.repositories")
 public class UserBean implements UserManager {
+
+    private static final Object LINK_FRONT = "http://localhost:8080";
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailSender sender;
+
+    @Autowired
+    private ContentBuilder cb;
 
     @Autowired
     UserRepository ur;
@@ -69,6 +84,21 @@ public class UserBean implements UserManager {
             return admin.get();
         }
         return null;
+    }
+
+    @Override
+    public Administrator createAdmin(String email, String firstname, String lastname, String occupation)
+            throws MessageNotSentException {
+        Administrator admin = new Administrator();
+        String password = null;
+        admin.setEmail(email);
+        admin.setPassword(passwordEncoder.encode(password));
+        admin.setFirstname(firstname);
+        admin.setLastname(lastname);
+        admin.setOccupation(occupation);
+        ar.save(admin);
+        sender.sendTemplateMessage(email, "Création de compte", cb.init("admin").put("username", email).put("password", password).put("link", LINK_FRONT).render());
+        return admin;
     }
     
 }
