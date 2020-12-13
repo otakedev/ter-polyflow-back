@@ -20,6 +20,7 @@ import fr.polytech.entities.models.Wish;
 import fr.polytech.entities.repositories.AdministratorRepository;
 import fr.polytech.entities.repositories.StudentRepository;
 import fr.polytech.entities.repositories.UserRepository;
+import fr.polytech.user.utils.RandomPasswordGenerator;
 
 @Component
 @ComponentScan("fr.polytech.entities.repositories")
@@ -28,6 +29,8 @@ import fr.polytech.entities.repositories.UserRepository;
 public class UserBean implements UserManager {
 
     private static final Object LINK_FRONT = "http://localhost:8080";
+
+    private RandomPasswordGenerator randomPasswordGenerator = new RandomPasswordGenerator();
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -90,14 +93,15 @@ public class UserBean implements UserManager {
     public Administrator createAdmin(String email, String firstname, String lastname, String occupation)
             throws MessageNotSentException {
         Administrator admin = new Administrator();
-        String password = null;
+        String password = randomPasswordGenerator.generateSecureRandomPassword();
         admin.setEmail(email);
         admin.setPassword(passwordEncoder.encode(password));
         admin.setFirstname(firstname);
         admin.setLastname(lastname);
         admin.setOccupation(occupation);
         ar.save(admin);
-        sender.sendTemplateMessage(email, "Création de compte", cb.init("admin").put("username", email).put("password", password).put("link", LINK_FRONT).render());
+        sender.sendTemplateMessage(email, "Création de compte",
+                cb.init("admin").put("username", email).put("password", password).put("link", LINK_FRONT).render());
         return admin;
     }
 
@@ -109,5 +113,4 @@ public class UserBean implements UserManager {
         }
         return null;
     }
-    
 }
