@@ -259,7 +259,6 @@ public class Fill {
         for (long i = 0l; i < 10l; i++) {
             Student student = new Student();
             student.setAge(faker.random().nextInt(18, 25));
-            student.setPassword(passwordEncoder.encode(faker.lorem().characters(10, 20, true)));
             student.setCurrentYear("SI3");
             student.setEmail(faker.internet().emailAddress());
             student.setFirstname(faker.name().firstName());

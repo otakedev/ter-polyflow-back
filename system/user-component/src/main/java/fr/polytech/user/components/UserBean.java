@@ -100,5 +100,14 @@ public class UserBean implements UserManager {
         sender.sendTemplateMessage(email, "Création de compte", cb.init("admin").put("username", email).put("password", password).put("link", LINK_FRONT).render());
         return admin;
     }
+
+    @Override
+    public Administrator getAdminByEmail(String email) {
+        Optional<Administrator> admin = ar.findByEmail(email);
+        if (admin.isPresent()) {
+            return admin.get();
+        }
+        return null;
+    }
     
 }

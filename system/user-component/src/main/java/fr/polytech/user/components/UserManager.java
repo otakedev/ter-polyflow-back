@@ -23,4 +23,6 @@ public interface UserManager {
 	Administrator getAdministratorById(Long objectId);
 
 	Administrator createAdmin(String email, String firstname, String lastname, String occupation) throws MessageNotSentException;
+
+	Administrator getAdminByEmail(String email);
 }

@@ -24,7 +24,7 @@ public abstract class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@Column(name = "firstname", length = 100, nullable = false)
@@ -38,18 +38,6 @@ public abstract class User implements Serializable {
 	
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
-	
-	@JsonIgnore
-	@Column(name = "password", length = 100, nullable = false)
-    private String password;
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
     public String getEmail() {
         return this.email;

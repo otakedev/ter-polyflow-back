@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 
 import fr.polytech.user.components.UserManager;
-import fr.polytech.entities.models.User;
+import fr.polytech.entities.models.Administrator;
  
 public class UserDetailsServiceImpl implements UserDetailsService {
  
@@ -14,13 +14,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        User user = uManager.getUserByEmail(email);
+        Administrator admin = uManager.getAdminByEmail(email);
          
-        if (user == null) {
-            throw new UsernameNotFoundException("Could not find user");
+        if (admin == null) {
+            throw new UsernameNotFoundException("Could not find admin");
         }
          
-        return new UserAuthDetails(user);
+        return new UserAuthDetails(admin);
     }
  
 }
