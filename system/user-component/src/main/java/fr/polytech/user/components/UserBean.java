@@ -23,7 +23,7 @@ import fr.polytech.entities.repositories.UserRepository;
 import fr.polytech.user.utils.RandomPasswordGenerator;
 
 @Component
-@ComponentScan("fr.polytech.entities.repositories")
+@ComponentScan({"fr.polytech.entities.repositories", "fr.polytech.email.components"})
 @EntityScan("fr.polytech.entities.models")
 @EnableJpaRepositories("fr.polytech.entities.repositories")
 public class UserBean implements UserManager {
