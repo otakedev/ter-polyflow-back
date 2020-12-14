@@ -1,30 +1,39 @@
 package fr.polytech.webservices;
 
+import javax.servlet.http.Cookie;
+
 import com.google.inject.internal.util.ImmutableList;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.*;
-import org.springframework.security.config.annotation.authentication.builders.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import fr.polytech.webservices.security.UserDetailsServiceImpl;
 import fr.polytech.entities.models.Role;
+import fr.polytech.webservices.security.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${security.active}")
-    private boolean active;
+    private boolean isSecurityActive;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -49,10 +58,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(ImmutableList.of("*"));
-        configuration.setAllowedMethods(ImmutableList.of("HEAD",
-                "GET", "POST", "PUT", "DELETE", "PATCH"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
         // setAllowCredentials(true) is important, otherwise:
-        // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+        // The value of the 'Access-Control-Allow-Origin' header in the response must
+        // not be the wildcard '*' when the request's credentials mode is 'include'.
         configuration.setAllowCredentials(true);
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
@@ -69,27 +78,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
-        if(active)
-        http.cors().and().authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS,"*").permitAll()
-            .antMatchers("/api/admin/**").hasAuthority(Role.ADMIN.toString())
-            .and()
-            .formLogin().permitAll()
-            .and()
-            .logout().permitAll()
-            .and()
-            .exceptionHandling().accessDeniedPage("/403"); 
-        else
-        http.cors().and().authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS,"*").permitAll()
-            .and()
-            .formLogin().permitAll()
-            .and()
-            .logout().permitAll()
-            .and()
-            .exceptionHandling().accessDeniedPage("/403");
-        
+        Cookie sessionCookie = new Cookie("JSESSIONID", null);
+        sessionCookie.setPath("/");
+        sessionCookie.setMaxAge(0);
+
         http.csrf().disable();
+
+        // @formatter:off
+        if (isSecurityActive) {
+            http.cors().and()
+                    .authorizeRequests()
+                        .antMatchers(HttpMethod.OPTIONS, "*").permitAll()
+                        .antMatchers("/login", "/logout").permitAll()
+                        .antMatchers("/api/admin/**").hasAuthority(Role.ADMIN.toString()).and()
+                            .exceptionHandling()
+                            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)).and()
+                    .formLogin()
+                        .permitAll().loginProcessingUrl("/login")
+                        .successHandler((req, res, auth) -> res.setStatus(HttpStatus.OK.value()))
+                        .failureHandler(new SimpleUrlAuthenticationFailureHandler()).and()
+                    .logout().permitAll()
+                        .addLogoutHandler(new CookieClearingLogoutHandler(sessionCookie))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
+        } else {
+            http.cors().and()
+                    .authorizeRequests()
+                        .antMatchers(HttpMethod.OPTIONS, "*").permitAll()
+                        .antMatchers("/login", "/logout").permitAll()
+                        .anyRequest().permitAll().and()
+                    .formLogin()
+                        .permitAll().loginProcessingUrl("/login")
+                        .successHandler((req, res, auth) -> res.setStatus(HttpStatus.OK.value()))
+                        .failureHandler(new SimpleUrlAuthenticationFailureHandler()).and()
+                    .logout().permitAll()
+                        .addLogoutHandler(new CookieClearingLogoutHandler(sessionCookie))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
+        }
+        // @formatter:on
     }
 }
