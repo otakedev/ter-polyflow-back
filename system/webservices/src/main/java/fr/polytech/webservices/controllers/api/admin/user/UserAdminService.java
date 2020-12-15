@@ -1,5 +1,7 @@
 package fr.polytech.webservices.controllers.api.admin.user;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.polytech.user.components.UserManager;
 import fr.polytech.webservices.Application;
@@ -19,6 +23,7 @@ import fr.polytech.webservices.errors.BadRequestException;
 import fr.polytech.webservices.models.AdministratorBody;
 import fr.polytech.email.errors.MessageNotSentException;
 import fr.polytech.entities.models.Administrator;
+import fr.polytech.entities.models.Student;
 import fr.polytech.entities.models.User;
 
 @RestController
@@ -55,4 +60,16 @@ public class UserAdminService {
         }
     }
 
+    @CrossOrigin
+    @PostMapping("")
+    public List<Student> importCSV(@RequestPart("file") MultipartFile file) {
+        log.info("POST : /api/admin/user");
+        // return new ArrayList<>();
+        try {
+            return um.upload(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new BadRequestException();
+        }
+    }
 }

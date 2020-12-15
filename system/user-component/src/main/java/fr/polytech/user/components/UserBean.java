@@ -1,14 +1,30 @@
 package fr.polytech.user.components;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.polytech.email.components.EmailSender;
 import fr.polytech.email.components.content.ContentBuilder;
@@ -23,10 +39,25 @@ import fr.polytech.entities.repositories.UserRepository;
 import fr.polytech.user.utils.RandomPasswordGenerator;
 
 @Component
-@ComponentScan({"fr.polytech.entities.repositories", "fr.polytech.email.components"})
+@ComponentScan({ "fr.polytech.entities.repositories", "fr.polytech.email.components" })
 @EntityScan("fr.polytech.entities.models")
 @EnableJpaRepositories("fr.polytech.entities.repositories")
 public class UserBean implements UserManager {
+
+    public class MultipartFileResource extends ByteArrayResource {
+
+        private String filename;
+    
+        public MultipartFileResource(MultipartFile multipartFile) throws IOException {
+            super(multipartFile.getBytes());
+            this.filename = multipartFile.getOriginalFilename();
+        }
+    
+        @Override
+        public String getFilename() {
+            return this.filename;
+        }
+    }
 
     private static final Object LINK_FRONT = "http://localhost:8080";
 
@@ -112,5 +143,22 @@ public class UserBean implements UserManager {
             return admin.get();
         }
         return null;
+    }
+
+    @Override
+    public List<Student> upload(MultipartFile file) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", new MultipartFileResource(file));
+        String serverUrl = "http://127.0.0.1:4000/student";
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        // ResponseEntity<Student[]> response = restTemplate.getForEntity(serverUrl, Student[].class);
+        ResponseEntity<Student[]> response = restTemplate.postForEntity(serverUrl, requestEntity, Student[].class);
+        System.out.println(response.getBody());
+        return Arrays.asList(response.getBody());
     }
 }
