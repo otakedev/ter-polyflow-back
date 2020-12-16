@@ -33,3 +33,11 @@ env:
     mode: @mode@
 security:
     active: false
+
+servers:
+    student_api: 
+        host: localhost
+        port: 4000
+    front:
+        host: localhost
+        port: 4200

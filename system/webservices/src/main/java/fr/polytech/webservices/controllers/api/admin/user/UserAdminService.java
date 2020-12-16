@@ -1,7 +1,6 @@
 package fr.polytech.webservices.controllers.api.admin.user;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;

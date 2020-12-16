@@ -9,7 +9,6 @@ import { v4 } from "https://deno.land/std@0.81.0/uuid/mod.ts";
 export default class StudentConntroller extends Drash.Http.Resource {
 	static paths = ['/student'];
 	public async POST() {
-		console.log("hello world")
 		const file = this.request.getBodyFile("file");
 		if (!file || !file.content) {
 			throw new Drash.Exceptions.HttpException(
@@ -27,28 +26,11 @@ export default class StudentConntroller extends Drash.Http.Resource {
 			const ms = new MapperStudent();
 			const user: User|null = mu.map(obj);
 			const student: Student|null = ms.map(obj);
-			const u = {...user, ...student }
+			const u = { ...user, ...student }
 			users.push(u);
 		}
 		Deno.remove(filename);
 		this.response.body = users;
-		return this.response;
-	}
-
-	public GET() {
-		this.response.body = [
-			{
-				age: 10,
-				currentYear: 'string',
-				email: 'string',
-				firstname: 'string',
-				gender: 'string',
-				id: 10,
-				lastname: 'string',
-				profilePicUrl: null,
-				wish: null,
-			},
-		];
 		return this.response;
 	}
 }

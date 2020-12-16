@@ -1,18 +1,15 @@
 package fr.polytech.user.components;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -58,8 +55,18 @@ public class UserBean implements UserManager {
             return this.filename;
         }
     }
+    
+    @Value("${servers.front.host:localhost}")
+    private String frontHost;
 
-    private static final Object LINK_FRONT = "http://localhost:8080";
+    @Value("${servers.front.port:8080}")
+    private String frontPort;
+
+    @Value("${servers.student_api.host:localhost}")
+    private String studentAPIHost;
+
+    @Value("${servers.student_api.port:4000}")
+    private String studentAPIPort;
 
     private RandomPasswordGenerator randomPasswordGenerator = new RandomPasswordGenerator();
 
@@ -132,7 +139,7 @@ public class UserBean implements UserManager {
         admin.setOccupation(occupation);
         ar.save(admin);
         sender.sendTemplateMessage(email, "Création de compte",
-                cb.init("admin").put("username", email).put("password", password).put("link", LINK_FRONT).render());
+                cb.init("admin").put("username", email).put("password", password).put("link", String.format("http://%s:%s", frontHost, frontPort)).render());
         return admin;
     }
 
@@ -151,14 +158,14 @@ public class UserBean implements UserManager {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", new MultipartFileResource(file));
-        String serverUrl = "http://127.0.0.1:4000/student";
+        String serverUrl = String.format("http://%s:%s/student", studentAPIHost, studentAPIPort);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        // ResponseEntity<Student[]> response = restTemplate.getForEntity(serverUrl, Student[].class);
         ResponseEntity<Student[]> response = restTemplate.postForEntity(serverUrl, requestEntity, Student[].class);
-        System.out.println(response.getBody());
-        return Arrays.asList(response.getBody());
+        List<Student> students = Arrays.asList(response.getBody());
+        sr.saveAll(students);
+        return students;
     }
 }
