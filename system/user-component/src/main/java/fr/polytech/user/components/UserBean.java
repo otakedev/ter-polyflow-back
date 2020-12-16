@@ -1,6 +1,7 @@
 package fr.polytech.user.components;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,10 @@ import fr.polytech.entities.repositories.StudentRepository;
 import fr.polytech.entities.repositories.UserRepository;
 import fr.polytech.user.utils.RandomPasswordGenerator;
 
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
+
 @Component
 @ComponentScan({ "fr.polytech.entities.repositories", "fr.polytech.email.components" })
 @EntityScan("fr.polytech.entities.models")
@@ -44,18 +49,18 @@ public class UserBean implements UserManager {
     public class MultipartFileResource extends ByteArrayResource {
 
         private String filename;
-    
+
         public MultipartFileResource(MultipartFile multipartFile) throws IOException {
             super(multipartFile.getBytes());
             this.filename = multipartFile.getOriginalFilename();
         }
-    
+
         @Override
         public String getFilename() {
             return this.filename;
         }
     }
-    
+
     @Value("${servers.front.host:localhost}")
     private String frontHost;
 
@@ -138,8 +143,8 @@ public class UserBean implements UserManager {
         admin.setLastname(lastname);
         admin.setOccupation(occupation);
         ar.save(admin);
-        sender.sendTemplateMessage(email, "Création de compte",
-                cb.init("admin").put("username", email).put("password", password).put("link", String.format("http://%s:%s", frontHost, frontPort)).render());
+        sender.sendTemplateMessage(email, "Création de compte", cb.init("admin").put("username", email)
+                .put("password", password).put("link", String.format("http://%s:%s", frontHost, frontPort)).render());
         return admin;
     }
 
@@ -167,5 +172,25 @@ public class UserBean implements UserManager {
         List<Student> students = Arrays.asList(response.getBody());
         sr.saveAll(students);
         return students;
+    }
+
+    @Override
+    public String download() throws IOException {
+        List<Student> listUsers = (List<Student>) sr.findAll();
+
+        StringWriter writer = new StringWriter();
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+        String[] csvHeader = {"User ID", "Nom", "Prénom", "Email", "Age", "Genre"};
+        String[] nameMapping = {"id", "firstname", "lastname", "email", "age", "gender"};
+         
+        csvWriter.writeHeader(csvHeader);
+         
+        for (User user : listUsers) {
+            csvWriter.write(user, nameMapping);
+        }
+        
+        csvWriter.close();
+        
+        return writer.toString();
     }
 }
