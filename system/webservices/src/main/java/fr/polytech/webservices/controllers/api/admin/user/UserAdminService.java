@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,12 +65,19 @@ public class UserAdminService {
     @PostMapping("")
     public List<Student> importCSV(@RequestPart("file") MultipartFile file) {
         log.info("POST : /api/admin/user");
-        // return new ArrayList<>();
         try {
             return um.upload(file);
         } catch (IOException e) {
             e.printStackTrace();
             throw new BadRequestException();
         }
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/export", produces = "text/csv; charset=UTF-8")
+    public ResponseEntity<String> export() throws IOException {
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "text/csv; charset=UTF-8")
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"report.csv\"")
+                    .body(um.download());
     }
 }

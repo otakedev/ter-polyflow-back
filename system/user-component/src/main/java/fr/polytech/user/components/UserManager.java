@@ -30,4 +30,6 @@ public interface UserManager {
     Administrator getAdminByEmail(String email);
     
     List<Student> upload(MultipartFile file) throws IOException;
+
+    String download() throws IOException;
 }
