@@ -1,18 +1,10 @@
-import Application from "./Application.ts";
-
 export default class Student {
+	age?: number;
+	current_year?: string;
+	gender?: string;
+	id?: number;
 
-    private studentNumber: string;
-    private firstname: string;
-    private lastname: string;
-
-    private applications: Application[];
-
-    constructor(studentNumber: string, firstname: string, lastname: string, applications: Application[]) {
-        this.studentNumber = studentNumber;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.applications = applications;
-    }
-
+	constructor(object: any) {
+		Object.assign(this, object)
+	}
 }

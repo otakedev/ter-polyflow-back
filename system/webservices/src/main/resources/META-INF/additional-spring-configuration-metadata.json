@@ -7,4 +7,20 @@
   "name": "security.active",
   "type": "java.lang.boolean",
   "description": "A description for 'security.active'"
+},
+{
+  "name": "servers.student_api.host",
+  "type": "java.lang.String"
+},
+{
+  "name": "servers.student_api.port",
+  "type": "java.lang.String"
+},
+{
+  "name": "servers.front.host",
+  "type": "java.lang.String"
+},
+{
+  "name": "servers.front.port",
+  "type": "java.lang.String"
 }]}

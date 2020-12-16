@@ -1,6 +1,9 @@
 package fr.polytech.user.components;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.polytech.email.errors.MessageNotSentException;
 import fr.polytech.entities.models.Administrator;
@@ -24,5 +27,7 @@ public interface UserManager {
 
 	Administrator createAdmin(String email, String firstname, String lastname, String occupation) throws MessageNotSentException;
 
-	Administrator getAdminByEmail(String email);
+    Administrator getAdminByEmail(String email);
+    
+    List<Student> upload(MultipartFile file) throws IOException;
 }

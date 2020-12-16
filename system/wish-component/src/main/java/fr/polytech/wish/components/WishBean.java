@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -37,7 +38,11 @@ import fr.polytech.wish.errors.WishNotFoundException;
 @EnableJpaRepositories("fr.polytech.entities.repositories")
 public class WishBean implements WishManager {
 
-    private static final String WISHLINK = "http://localhost:8080/wish/";
+    @Value("${servers.front.host:localhost}")
+    private String frontHost;
+
+    @Value("${servers.front.port:8080}")
+    private String frontPort;
 
     private static final int NB_OPTION_COURSE = 5;
 
@@ -75,7 +80,7 @@ public class WishBean implements WishManager {
         Wish wish = new Wish();
         wish.setCourses(new ArrayList<>());
         wish.setCreationDate(new Date());
-        wish.setExpiratioDate(new Date(new Date().getTime() + 1000000000l)); // TODO change it
+        wish.setExpiratioDate(new Date(new Date().getTime() + 1000000000l));
         wish.setLastSubmitionDate(null);
         wish.setMinor(null);
         wish.setUuid(uuid.toString().replace("-", ""));
@@ -85,7 +90,7 @@ public class WishBean implements WishManager {
         try {
             es.sendTemplateMessage(student.getEmail(), "Vos voeux sont disponibles",
                     cb.init("wishes").put("name", student.getFirstname() + " " + student.getLastname())
-                            .put("link", WISHLINK + wish.getUuid()).render());
+                            .put("link", String.format("http://%s:%s/wish/%s", frontHost, frontPort, uuid) + wish.getUuid()).render());
         } catch (MessageNotSentException e) {} //Message not sent, but wish is created, we continue.
         um.setWish(student, wish);
         return wish;
