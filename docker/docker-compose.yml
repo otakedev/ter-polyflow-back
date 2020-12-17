@@ -26,3 +26,14 @@ services:
       - "3000:8080"
     depends_on: 
       - database
+      - pf-students
+  pf-students:
+    image: polyflow/students
+    container_name: pf-students
+    build: 
+      context: ..
+      dockerfile: ./docker/students/Dockerfile
+    expose:
+      - "4000"
+    ports:
+      - "4000:4000"
