@@ -21,4 +21,12 @@ spring:
 env:
     mode: test
 security:
-    active: false
+    active: true
+
+servers:
+    student_api: 
+        host: pf-students
+        port: 4000
+    front:
+        host: front
+        port: 4200
