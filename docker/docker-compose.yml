@@ -6,31 +6,31 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: 'polyflow'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'root'
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: "polyflow"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "root"
     expose:
       - "3307"
-    ports: 
+    ports:
       - "3307:3306"
   pf-system:
     image: polyflow/back-end
     container_name: pf-system
-    build: 
+    build:
       context: ..
       dockerfile: ./docker/system/Dockerfile
     expose:
       - "3000"
     ports:
       - "3000:8080"
-    depends_on: 
+    depends_on:
       - database
       - pf-students
   pf-students:
     image: polyflow/students
     container_name: pf-students
-    build: 
+    build:
       context: ..
       dockerfile: ./docker/students/Dockerfile
     expose:

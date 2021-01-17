@@ -31,7 +31,7 @@ import fr.polytech.webservices.security.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-@EnableWebMvc
+// @EnableWebMvc
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${security.active}")
