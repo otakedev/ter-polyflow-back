@@ -2,7 +2,6 @@ package fr.polytech.entities.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -10,11 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "WorkflowStep")
@@ -28,7 +25,7 @@ public class WorkflowStep implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "title", length = 500, nullable = false)
     private String title;
 
@@ -41,13 +38,9 @@ public class WorkflowStep implements Serializable {
     @Column(name = "externalLink", length = 100, nullable = true)
     private String externalLink;
 
-    @ManyToMany
-    @JoinTable(
-        name = "workflow_step_in_charge", 
-        joinColumns = { @JoinColumn(name = "workflowstep_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
-    )
-    private List<Administrator> personInCharge;
+    @ManyToOne
+    @JoinColumn(name = "administrator_id", nullable = false)
+    private Administrator personInCharge;
 
     @Column(name = "checkpointDate", nullable = true)
     private Date checkpointDate;
@@ -100,14 +93,14 @@ public class WorkflowStep implements Serializable {
         this.externalLink = externalLink;
     }
 
-    public List<Administrator> getPersonInCharge() {
+    public Administrator getPersonInCharge() {
         return this.personInCharge;
     }
 
-    public void setPersonInCharge(List<Administrator> personInCharge) {
+    public void setPersonInCharge(Administrator personInCharge) {
         this.personInCharge = personInCharge;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
