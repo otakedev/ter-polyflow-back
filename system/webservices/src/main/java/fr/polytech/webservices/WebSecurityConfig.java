@@ -24,14 +24,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import fr.polytech.entities.models.Role;
 import fr.polytech.webservices.security.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-// @EnableWebMvc
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${security.active}")

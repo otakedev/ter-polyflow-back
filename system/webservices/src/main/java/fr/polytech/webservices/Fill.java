@@ -68,7 +68,7 @@ public class Fill {
     FileRepository fRepository;
 
     @Autowired
-    CourseRepository cRepository ;
+    CourseRepository cRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -103,7 +103,8 @@ public class Fill {
     }
 
     private Course getCourseFromCode(List<Course> courses, String code) {
-        List<Course> filtered = courses.stream().filter(course -> course.getCode().equals(code)).collect(Collectors.toList());
+        List<Course> filtered = courses.stream().filter(course -> course.getCode().equals(code))
+                .collect(Collectors.toList());
         return filtered.isEmpty() ? null : filtered.get(0);
     }
 
@@ -116,16 +117,15 @@ public class Fill {
         Map<String, JSONArray> map = new HashMap<>();
         List<Course> courses = new ArrayList<>();
         log.info("Creating some courses...");
-        for(int i=0; i<array.size(); i++)
-        {
+        for (int i = 0; i < array.size(); i++) {
             JSONObject element = (JSONObject) array.get(i);
             Course course;
-            if(element.get("minor") == null)
+            if (element.get("minor") == null)
                 course = new Course();
             else {
                 MinorCourse mcourse = new MinorCourse();
                 Minor minor;
-                switch((String)element.get("minor")) {
+                switch ((String) element.get("minor")) {
                     case "AL":
                         minor = Minor.AL;
                         break;
@@ -148,28 +148,26 @@ public class Fill {
                         minor = Minor.UBINET;
                         break;
                     default:
-                        log.error((String)element.get("minor") + " is undefined minor");
-                        minor = Minor.WEB; //Don't be pass here
+                        log.error((String) element.get("minor") + " is undefined minor");
+                        minor = Minor.WEB; // Don't be pass here
                         break;
                 }
                 mcourse.setMinor(minor);
                 course = mcourse;
             }
-            course.setCode((String)element.get("code"));
-            if(element.get("dayOfTheWeek") != null)
-                course.setDayOfTheWeek(Math.toIntExact((long)element.get("dayOfTheWeek")));
-            course.setDescription((String)element.get("description"));
-            
-            if(element.get("period") != null)
-            {
+            course.setCode((String) element.get("code"));
+            if (element.get("dayOfTheWeek") != null)
+                course.setDayOfTheWeek(Math.toIntExact((long) element.get("dayOfTheWeek")));
+            course.setDescription((String) element.get("description"));
+
+            if (element.get("period") != null) {
                 int value;
                 try {
-                    value = ((Long)element.get("period")).intValue();
-                }
-                catch(Exception e) {
+                    value = ((Long) element.get("period")).intValue();
+                } catch (Exception e) {
                     value = -1;
                 }
-                switch(value) {
+                switch (value) {
                     case 1:
                         course.setPeriod(Period.FIRST_BIMONTHLY);
                         break;
@@ -180,50 +178,48 @@ public class Fill {
                         course.setPeriod(Period.OTHER);
                         break;
                 }
-            }
-            else course.setPeriod(Period.OTHER);
-            if(element.get("halfDay") != null)
-            {
+            } else
+                course.setPeriod(Period.OTHER);
+            if (element.get("halfDay") != null) {
                 int value;
                 try {
-                    value = ((Long)element.get("halfDay")).intValue();
-                }
-                catch(Exception e) {
+                    value = ((Long) element.get("halfDay")).intValue();
+                } catch (Exception e) {
                     value = -1;
                 }
-                switch(value) {
+                switch (value) {
                     case 0:
                         course.setHalfDay(HalfDay.MORNING);
                         break;
                     case 1:
-                        course.setHalfDay(HalfDay.AFTERNOON); 
+                        course.setHalfDay(HalfDay.AFTERNOON);
                         break;
                     default:
                         course.setHalfDay(HalfDay.MORNING);
                         break;
                 }
-            }
-            else course.setHalfDay(HalfDay.MORNING);
-            map.put(course.getCode(), (JSONArray)element.get("constraints"));
+            } else
+                course.setHalfDay(HalfDay.MORNING);
+            map.put(course.getCode(), (JSONArray) element.get("constraints"));
             courses.add(course);
         }
         log.info("Adding constraints on courses...");
-        for(Course course : courses) {
+        for (Course course : courses) {
             List<Course> constraints = new ArrayList<>();
-            for(int i=0; i<map.get(course.getCode()).size(); i++) {
-                constraints.add(getCourseFromCode(courses, (String)map.get(course.getCode()).get(i)));
+            for (int i = 0; i < map.get(course.getCode()).size(); i++) {
+                constraints.add(getCourseFromCode(courses, (String) map.get(course.getCode()).get(i)));
             }
             course.setConstraints(constraints);
         }
-        
+
         // try {
-        //     System.out.println("before save");
-        //     System.out.println(courses.size());
-        //     if(courses.size() > 0) System.out.println(courses.get(0).toString());
-            
-        //     System.out.println("after save");
+        // System.out.println("before save");
+        // System.out.println(courses.size());
+        // if(courses.size() > 0) System.out.println(courses.get(0).toString());
+
+        // System.out.println("after save");
         // } catch (Exception e) {
-        //     System.out.println(e.getMessage());
+        // System.out.println(e.getMessage());
         // }
         cRepository.saveAll(courses);
         log.info("All courses created and saved");
@@ -242,7 +238,7 @@ public class Fill {
     }
 
     private void createSomeAdmin() {
-        for(long i=0; i<10l; i++) {
+        for (long i = 0; i < 10l; i++) {
             Administrator admin = new Administrator();
             admin.setEmail(faker.internet().emailAddress());
             admin.setFirstname(faker.name().firstName());
@@ -269,12 +265,14 @@ public class Fill {
 
             for (long j = 0; j < 30; j++) {
                 List<WorkflowStep> steps = new ArrayList<>();
+                List<Administrator> attendees = admins.stream().filter(e -> faker.bool().bool())
+                        .collect(Collectors.toList());
                 for (long k = 0; k < 10; k++) {
                     WorkflowStep step = new WorkflowStep();
                     step.setTitle(faker.lorem().sentence(5));
                     step.setDescription(String.join(" ", faker.lorem().sentences(3)));
                     step.setExternalLink(faker.internet().url());
-                    step.setPersonInCharge(new ArrayList<>());
+                    step.setPersonInCharge(attendees.get(faker.random().nextInt(attendees.size())));
                     step.setStepIndex((int) k);
                     step.setCheckpointDate(faker.date().future(3, TimeUnit.DAYS));
                     wsReposity.save(step);
@@ -292,7 +290,7 @@ public class Fill {
                 }
 
                 WorkflowDetails wDetails = new WorkflowDetails();
-                wDetails.setAttendees(admins.stream().filter(e -> faker.bool().bool()).collect(Collectors.toList()));
+                wDetails.setAttendees(attendees);
                 wDetails.setDescription(String.join(" ", faker.lorem().sentences(3)));
                 wDetails.setSteps(steps);
                 wDetails.setFiles(files);
