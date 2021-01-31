@@ -5,12 +5,13 @@ import java.util.List;
 import fr.polytech.entities.models.File;
 
 public class WorkflowDetailsBody {
-    
+
     private Long id;
     private String description;
     private List<Long> steps;
     private List<Long> attendees;
     private List<File> files;
+    private String statusComment;
 
     public List<File> getFiles() {
         return this.files;
@@ -51,5 +52,13 @@ public class WorkflowDetailsBody {
     public void setAttendees(List<Long> attendees) {
         this.attendees = attendees;
     }
-    
+
+    public String getStatusComment() {
+        return statusComment;
+    }
+
+    public void setStatusComment(String statusComment) {
+        this.statusComment = statusComment;
+    }
+
 }

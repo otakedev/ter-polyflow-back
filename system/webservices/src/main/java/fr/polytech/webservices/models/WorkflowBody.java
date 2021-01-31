@@ -19,6 +19,7 @@ public class WorkflowBody implements Serializable {
     private String subject;
     private String currentStep;
     private WorkflowStatus status;
+    private boolean isUrgent;
 
     public WorkflowStatus getStatus() {
         return this.status;
@@ -82,5 +83,13 @@ public class WorkflowBody implements Serializable {
 
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
+    }
+
+    public boolean getIsUrgent() {
+        return isUrgent;
+    }
+
+    public void setIsUrgent(boolean isUrgent) {
+        this.isUrgent = isUrgent;
     }
 }

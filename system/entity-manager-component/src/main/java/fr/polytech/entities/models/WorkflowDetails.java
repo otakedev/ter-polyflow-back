@@ -30,12 +30,12 @@ public class WorkflowDetails implements Serializable {
     @Column(name = "description", length = 1000, nullable = true)
     private String description;
 
+    @Column(name = "statusComment", length = 500, nullable = true)
+    private String statusComment;
+
     @ManyToMany
-    @JoinTable(
-        name = "workflow_attendees", 
-        joinColumns = { @JoinColumn(name = "workflow_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "administrator_id") }
-    )
+    @JoinTable(name = "workflow_attendees", joinColumns = { @JoinColumn(name = "workflow_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "administrator_id") })
     private List<Administrator> attendees;
 
     @OneToMany
@@ -60,6 +60,14 @@ public class WorkflowDetails implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public String getStatusComment() {
+        return statusComment;
+    }
+
+    public void setStatusComment(String statusComment) {
+        this.statusComment = statusComment;
     }
 
     public List<WorkflowStep> getSteps() {
