@@ -17,24 +17,21 @@ import javax.persistence.Table;
 @Table(name = "Workflow")
 public class Workflow implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "title", length = 500, nullable = false)
     private String title;
 
     @ManyToOne
-    @JoinColumn(name="student_id", nullable=true)
+    @JoinColumn(name = "student_id", nullable = true)
     private Student target;
 
     @ManyToOne
-    @JoinColumn(name="author_id", nullable=false)
+    @JoinColumn(name = "author_id", nullable = false)
     private Administrator author;
 
     @Column(name = "creationDate", nullable = false)
@@ -45,6 +42,9 @@ public class Workflow implements Serializable {
 
     @Column(name = "subject", length = 500, nullable = true)
     private String subject;
+
+    @Column(name = "isUrgent", nullable = false)
+    private boolean isUrgent = false;
 
     @OneToOne
     @JoinColumn(name = "workflow_details_id", nullable = false)
@@ -71,6 +71,14 @@ public class Workflow implements Serializable {
 
     public void setCurrentStep(WorkflowStep currentStep) {
         this.currentStep = currentStep;
+    }
+
+    public boolean getIsUrgent() {
+        return isUrgent;
+    }
+
+    public void setIsUrgent(boolean isUrgent) {
+        this.isUrgent = isUrgent;
     }
 
     public WorkflowDetails getDetails() {
