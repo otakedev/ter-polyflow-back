@@ -101,6 +101,63 @@ public class WorkflowStep implements Serializable {
         this.personInCharge = personInCharge;
     }
 
+    public WorkflowStep() {
+    }
+
+    public WorkflowStep(Long id, String title, String description, int stepIndex, String externalLink,
+            Administrator personInCharge, Date checkpointDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.stepIndex = stepIndex;
+        this.externalLink = externalLink;
+        this.personInCharge = personInCharge;
+        this.checkpointDate = checkpointDate;
+    }
+
+    public WorkflowStep id(Long id) {
+        setId(id);
+        return this;
+    }
+
+    public WorkflowStep title(String title) {
+        setTitle(title);
+        return this;
+    }
+
+    public WorkflowStep description(String description) {
+        setDescription(description);
+        return this;
+    }
+
+    public WorkflowStep stepIndex(int stepIndex) {
+        setStepIndex(stepIndex);
+        return this;
+    }
+
+    public WorkflowStep externalLink(String externalLink) {
+        setExternalLink(externalLink);
+        return this;
+    }
+
+    public WorkflowStep personInCharge(Administrator personInCharge) {
+        setPersonInCharge(personInCharge);
+        return this;
+    }
+
+    public WorkflowStep checkpointDate(Date checkpointDate) {
+        setCheckpointDate(checkpointDate);
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + ", title='" + getTitle() + "'" + ", description='" + getDescription()
+                + "'" + ", stepIndex='" + getStepIndex() + "'" + ", externalLink='" + getExternalLink() + "'"
+                + ", personInCharge='" + getPersonInCharge() + "'" + ", checkpointDate='" + getCheckpointDate() + "'"
+                + "}";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)

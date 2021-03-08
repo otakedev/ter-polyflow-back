@@ -1,4 +1,4 @@
-import { Drash } from 'https://deno.land/x/drash@v1.3.1/mod.ts';
+import { Drash } from 'https://deno.land/x/drash@v1.4.1/mod.ts';
 import StudentController from './controllers/StudentController.ts';
 
 const args = Deno.args;
@@ -30,7 +30,7 @@ const server = new Drash.Http.Server({
 });
 
 const host = args[0] ?? '127.0.0.1';
-let port: string|number = args[1] ?? 4000;
+let port: string | number = args[1] ?? 4000;
 port = parseInt(port);
 
 server.run({
