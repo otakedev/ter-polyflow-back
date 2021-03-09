@@ -43,7 +43,7 @@ public class Wish {
     private Boolean sandwichCourse;
 
     @ManyToOne
-    @JoinColumn(name = "cancelable_course_id")
+    @JoinColumn(name = "cancelable_course_id", nullable = true)
     private Course cancelableCourse;
 
     @OneToMany
