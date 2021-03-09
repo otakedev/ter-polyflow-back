@@ -1,5 +1,6 @@
 server:
     port: 3000
+    forward-headers-strategy: NATIVE
     servlet:
         encoding:
             force-response: true
@@ -22,3 +23,11 @@ env:
     mode: test
 security:
     active: true
+
+servers:
+    student_api:
+        host: pf-students
+        port: 4000
+    front:
+        host: front
+        port: 4200

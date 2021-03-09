@@ -12,15 +12,18 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
 import fr.polytech.entities.models.Administrator;
+import fr.polytech.entities.models.File;
 import fr.polytech.entities.models.Workflow;
 import fr.polytech.entities.models.WorkflowDetails;
 import fr.polytech.entities.models.WorkflowStep;
+import fr.polytech.entities.repositories.FileRepository;
 import fr.polytech.entities.repositories.WorkflowDetailsRepository;
 import fr.polytech.entities.repositories.WorkflowRepository;
 import fr.polytech.entities.repositories.WorkflowStepRepository;
 import fr.polytech.workflowmanager.errors.WorkflowDetailsNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowFieldWithNotValueException;
+import fr.polytech.workflowmanager.errors.WorkflowFileNotExist;
 import fr.polytech.workflowmanager.errors.WorkflowHasNotWorkflowStepException;
 import fr.polytech.workflowmanager.errors.WorkflowNotFound;
 import fr.polytech.workflowmanager.errors.WorkflowPageOrElementPerPageNotSpecify;
@@ -40,6 +43,9 @@ public class WorkflowBean implements WorkflowManager {
 
     @Autowired
     WorkflowStepRepository wrs;
+
+    @Autowired
+    FileRepository fr;
 
     @Override
     public List<Workflow> getWorkflows(String field, String value, Integer page, Integer elementPerPage)
@@ -140,5 +146,47 @@ public class WorkflowBean implements WorkflowManager {
 
         return workflowDetails;
     }
-    
+
+    @Override
+    public WorkflowStep updateStepComment(Long stepId, String comment) throws WorkflowStepNotFound {
+        Optional<WorkflowStep> op = wrs.findById(stepId);
+        if (!op.isPresent())
+            throw new WorkflowStepNotFound();
+        WorkflowStep step = op.get();
+        step.setComment(comment);
+        wrs.save(step);
+        return step;
+    }
+
+    @Override
+    public Workflow addFile(File file, Long id) throws WorkflowNotFound {
+        Optional<Workflow> op = wr.findById(id);
+        if (!op.isPresent())
+            throw new WorkflowNotFound();
+        Workflow workflow = op.get();
+        fr.save(file);
+        workflow.getDetails().getFiles().add(file);
+        wr.save(workflow);
+
+        return workflow;
+    }
+
+    @Override
+    public Workflow removeFile(Long fileId, Long id) throws WorkflowNotFound, WorkflowFileNotExist {
+        Optional<Workflow> op = wr.findById(id);
+        if (!op.isPresent())
+            throw new WorkflowNotFound();
+        Workflow workflow = op.get();
+
+        Optional<File> opt = fr.findById(fileId);
+        if (!op.isPresent())
+            throw new WorkflowFileNotExist();
+        File file = opt.get();
+        workflow.getDetails().getFiles().remove(file);
+        fr.delete(file);
+        wr.save(workflow);
+
+        return workflow;
+    }
+
 }

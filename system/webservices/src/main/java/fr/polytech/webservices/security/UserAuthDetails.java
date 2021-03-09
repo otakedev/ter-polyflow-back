@@ -8,34 +8,34 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import fr.polytech.entities.models.User;
+import fr.polytech.entities.models.Administrator;
 
 public class UserAuthDetails implements UserDetails {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    private User user;
+    private Administrator admin;
 
-    public UserAuthDetails(User user) {
-        this.user = user;
+    public UserAuthDetails(Administrator admin) {
+        this.admin = admin;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+        authorities.add(new SimpleGrantedAuthority(admin.getRole().toString()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return admin.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return admin.getEmail();
     }
 
     @Override
