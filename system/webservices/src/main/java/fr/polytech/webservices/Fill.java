@@ -74,6 +74,8 @@ public class Fill {
     private PasswordEncoder passwordEncoder;
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final String FProfilPic = "https://otakedev.com/share/illustration/undraw_female_avatar_w3jk.png";
+    private static final String MProfilPic = "https://otakedev.com/share/illustration/undraw_male_avatar_323b.png";
 
     @Value("${env.mode}")
     private String env;
@@ -299,13 +301,14 @@ public class Fill {
             Student student = new Student();
             String firstname = faker.name().firstName();
             String lastname = faker.name().lastName();
-            student.setEmail(firstname + "." + lastname + "@etu.univ-cotedazur.fr");
+            student.setEmail("wmozzinor+" + firstname + "." + lastname + "@gmail.com");
             student.setAge(faker.random().nextInt(18, 25));
             student.setCurrentYear(origins.get(faker.random().nextInt(origins.size())));
             student.setFirstname(firstname);
             student.setLastname(lastname);
-            student.setGender(Arrays.asList("F", "M").get(faker.random().nextInt(2)));
-            student.setProfilePicUrl(faker.internet().url());
+            String gender = Arrays.asList("F", "M").get(faker.random().nextInt(2));
+            student.setGender(gender);
+            student.setProfilePicUrl(gender.equals("F") ? FProfilPic : MProfilPic);
             sRepository.save(student);
 
             List<WorkflowStep> steps = new ArrayList<>();
