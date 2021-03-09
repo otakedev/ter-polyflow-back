@@ -35,6 +35,9 @@ public class WorkflowStep implements Serializable {
     @Column(name = "step_index", nullable = false)
     private int stepIndex;
 
+    @Column(name = "comment", length = 500, nullable = true)
+    private String comment;
+
     @Column(name = "externalLink", length = 100, nullable = true)
     private String externalLink;
 
@@ -102,6 +105,14 @@ public class WorkflowStep implements Serializable {
     }
 
     public WorkflowStep() {
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public WorkflowStep(Long id, String title, String description, int stepIndex, String externalLink,

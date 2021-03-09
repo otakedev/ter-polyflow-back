@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.polytech.webservices.Application;
 import fr.polytech.webservices.errors.BadRequestException;
 import fr.polytech.webservices.errors.ResourceNotFoundException;
+import fr.polytech.webservices.models.StepBody;
 import fr.polytech.webservices.models.WorkflowBody;
 import fr.polytech.webservices.models.WorkflowDetailsBody;
 import fr.polytech.webservices.models.mapper.Mapper;
@@ -25,6 +26,7 @@ import fr.polytech.entities.models.Administrator;
 import fr.polytech.entities.models.File;
 import fr.polytech.entities.models.Workflow;
 import fr.polytech.entities.models.WorkflowDetails;
+import fr.polytech.entities.models.WorkflowStep;
 import fr.polytech.user.components.UserManager;
 import fr.polytech.workflowmanager.components.WorkflowManager;
 import fr.polytech.workflowmanager.errors.WorkflowFieldNotExist;
@@ -79,6 +81,18 @@ public class WorkflowAdminService {
         } catch (WorkflowNotFound e) {
             log.error(String.format("Workflow with id %d do not exist", id));
             throw new ResourceNotFoundException();
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/step/{stepId}/comment")
+    public WorkflowStep updateStepComment(@PathVariable Long stepId, @RequestBody StepBody step) {
+        log.info(String.format("PUT : /api/step/%d/comment", stepId));
+        try {
+            return wm.updateStepComment(stepId, step.getComment());
+        } catch (WorkflowStepNotFound e) {
+            log.error(String.format("WorkflowStep with id %d do not exist", stepId));
+            throw new BadRequestException();
         }
     }
 

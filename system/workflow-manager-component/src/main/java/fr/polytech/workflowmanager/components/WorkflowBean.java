@@ -148,6 +148,17 @@ public class WorkflowBean implements WorkflowManager {
     }
 
     @Override
+    public WorkflowStep updateStepComment(Long stepId, String comment) throws WorkflowStepNotFound {
+        Optional<WorkflowStep> op = wrs.findById(stepId);
+        if (!op.isPresent())
+            throw new WorkflowStepNotFound();
+        WorkflowStep step = op.get();
+        step.setComment(comment);
+        wrs.save(step);
+        return step;
+    }
+
+    @Override
     public Workflow addFile(File file, Long id) throws WorkflowNotFound {
         Optional<Workflow> op = wr.findById(id);
         if (!op.isPresent())
@@ -177,5 +188,5 @@ public class WorkflowBean implements WorkflowManager {
 
         return workflow;
     }
-    
+
 }
