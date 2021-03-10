@@ -74,8 +74,9 @@ public class Fill {
     private PasswordEncoder passwordEncoder;
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
-    private static final String FProfilPic = "https://otakedev.com/share/illustration/undraw_female_avatar_w3jk.png";
-    private static final String MProfilPic = "https://otakedev.com/share/illustration/undraw_male_avatar_323b.png";
+    private static final String F_PROFILE_PIC = "https://otakedev.com/share/illustration/undraw_female_avatar_w3jk.png";
+    private static final String M_PROFILE_PIC = "https://otakedev.com/share/illustration/undraw_male_avatar_323b.png";
+    private static final String SAMPLE_FILE = "https://docs.google.com/document/d/1rB_aK9f-96G4_v5uVI9mz09oBJJH0QrQ416eFJI8B1o/edit?usp=sharing";
 
     @Value("${env.mode}")
     private String env;
@@ -214,15 +215,6 @@ public class Fill {
             course.setConstraints(constraints);
         }
 
-        // try {
-        // System.out.println("before save");
-        // System.out.println(courses.size());
-        // if(courses.size() > 0) System.out.println(courses.get(0).toString());
-
-        // System.out.println("after save");
-        // } catch (Exception e) {
-        // System.out.println(e.getMessage());
-        // }
         cRepository.saveAll(courses);
         log.info("All courses created and saved");
     }
@@ -308,7 +300,7 @@ public class Fill {
             student.setLastname(lastname);
             String gender = Arrays.asList("F", "M").get(faker.random().nextInt(2));
             student.setGender(gender);
-            student.setProfilePicUrl(gender.equals("F") ? FProfilPic : MProfilPic);
+            student.setProfilePicUrl(gender.equals("F") ? F_PROFILE_PIC : M_PROFILE_PIC);
             sRepository.save(student);
 
             List<WorkflowStep> steps = new ArrayList<>();
@@ -318,7 +310,7 @@ public class Fill {
                 step.setTitle(basicSteps.get(k).getTitle());
                 step.setDescription(basicSteps.get(k).getDescription());
                 step.setExternalLink(faker.internet().url());
-                step.setPersonInCharge(admins.get(k));
+                step.setPersonInCharge(attendees.get(faker.random().nextInt(attendees.size())));
                 step.setStepIndex(k);
                 step.setCheckpointDate(faker.date().future(offsetDate + k, TimeUnit.DAYS));
                 wsReposity.save(step);
@@ -330,7 +322,7 @@ public class Fill {
                 File file = new File();
                 file.setAddedDate(faker.date().past(3, TimeUnit.DAYS));
                 file.setName(filesName.get(k));
-                file.setLink(faker.internet().url());
+                file.setLink(SAMPLE_FILE);
                 fRepository.save(file);
                 files.add(file);
             }
