@@ -29,5 +29,5 @@ servers:
         host: pf-students
         port: 4000
     front:
-        host: front
-        port: 4200
+        host: ter.otakedev.com
+        port: 80

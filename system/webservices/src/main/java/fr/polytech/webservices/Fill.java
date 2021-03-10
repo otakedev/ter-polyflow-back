@@ -289,7 +289,9 @@ public class Fill {
             .description("Si l'étudiant et étranger, il sera nécessaire de contacter le consultat pour les problèmes de visa. Sinon, vous pouvez valider cett étape."));
         // @formatter:on
 
-        for (int i = 0; i < 100; i++) {
+        seedDemoWorkflow(basicSteps, attendees, filesName);
+
+        for (int i = 0; i < 49; i++) {
             Student student = new Student();
             String firstname = faker.name().firstName();
             String lastname = faker.name().lastName();
@@ -350,5 +352,107 @@ public class Fill {
             workflow.setStatus(WorkflowStatus.values()[faker.random().nextInt(WorkflowStatus.values().length)]);
             wRepository.save(workflow);
         }
+    }
+
+    private void seedDemoWorkflow(List<WorkflowStep> basicSteps, List<Administrator> attendees,
+            List<String> filesName) {
+        Administrator alex = seedAdmins("alex", "cupertino");
+        Administrator betsa = seedAdmins("betsa", "teaser");
+        Administrator jason = seedAdmins("jason", "chevalier");
+
+        attendees.add(alex);
+        attendees.add(betsa);
+        attendees.add(jason);
+
+        Student student = new Student();
+        String firstname = "Anthony";
+        String lastname = "Bernier";
+        student.setEmail("wmozzinor+" + firstname + "." + lastname + "@gmail.com");
+        student.setAge(24);
+        student.setCurrentYear("SI4");
+        student.setFirstname(firstname);
+        student.setLastname(lastname);
+        student.setGender("M");
+        student.setProfilePicUrl(M_PROFILE_PIC);
+        sRepository.save(student);
+
+        List<WorkflowStep> steps = new ArrayList<>();
+        int offsetDate = 5;
+        WorkflowStep step;
+        for (int k = 0; k < 7; k++) {
+            step = new WorkflowStep();
+            step.setTitle(basicSteps.get(k).getTitle());
+            step.setDescription(basicSteps.get(k).getDescription());
+            step.setExternalLink(faker.internet().url());
+            step.setPersonInCharge(attendees.get(faker.random().nextInt(attendees.size())));
+            step.setStepIndex(k);
+            step.setCheckpointDate(faker.date().future(offsetDate + k, TimeUnit.DAYS));
+            wsReposity.save(step);
+            steps.add(step);
+        }
+
+        WorkflowStep currentStep = new WorkflowStep();
+        currentStep.setTitle(basicSteps.get(7).getTitle());
+        currentStep.setDescription(basicSteps.get(7).getDescription());
+        currentStep.setExternalLink(faker.internet().url());
+        currentStep.setPersonInCharge(alex);
+        currentStep.setStepIndex(7);
+        currentStep.setCheckpointDate(faker.date().future(offsetDate + 7, TimeUnit.DAYS));
+        wsReposity.save(currentStep);
+        steps.add(currentStep);
+
+        step = new WorkflowStep();
+        step.setTitle(basicSteps.get(8).getTitle());
+        step.setDescription(basicSteps.get(8).getDescription());
+        step.setExternalLink(faker.internet().url());
+        step.setPersonInCharge(betsa);
+        step.setStepIndex(8);
+        step.setCheckpointDate(faker.date().future(offsetDate + 8, TimeUnit.DAYS));
+        wsReposity.save(step);
+        steps.add(step);
+
+        List<File> files = new ArrayList<>();
+        for (int k = 0; k < 7; k++) {
+            File file = new File();
+            file.setAddedDate(faker.date().past(3, TimeUnit.DAYS));
+            file.setName(filesName.get(k));
+            file.setLink(SAMPLE_FILE);
+            fRepository.save(file);
+            files.add(file);
+        }
+
+        WorkflowDetails wDetails = new WorkflowDetails();
+        wDetails.setAttendees(attendees);
+        wDetails.setDescription("Vérification de la Candidature en SI5");
+        wDetails.setSteps(steps);
+        wDetails.setFiles(files);
+        wdRepository.save(wDetails);
+
+        Workflow workflow = new Workflow();
+        workflow.setAuthor(jason);
+        workflow.setCreationDate(faker.date().past(3, TimeUnit.DAYS));
+        workflow.setDeadlineDate(steps.get(steps.size() - 1).getCheckpointDate());
+        workflow.setSubject(student.getCurrentYear() + " : Réinscription");
+        workflow.setTarget(student);
+        workflow.setTitle("DETAILS DU DOSSIER DE CANDIDATURE");
+        workflow.setCurrentStep(currentStep);
+        workflow.setDetails(wDetails);
+        workflow.setStatus(WorkflowStatus.IN_PROGRESS);
+        wRepository.save(workflow);
+    }
+
+    private Administrator seedAdmins(String firstname, String lastname) {
+        List<String> occupations = Arrays.asList("Professeur", "Responsable", "Scolarité", "Superviseur",
+                "Enseignant Externe");
+        Administrator admin = new Administrator();
+        admin.setEmail(firstname + "." + lastname + "@etu.univ-cotedazur.fr");
+        admin.setFirstname(firstname);
+        admin.setLastname(lastname);
+        admin.setPassword(passwordEncoder.encode("password"));
+        admin.setProfilePicUrl(faker.internet().url());
+        admin.setOccupation(occupations.get(faker.random().nextInt(occupations.size())));
+        aRepository.save(admin);
+        admins.add(admin);
+        return admin;
     }
 }
